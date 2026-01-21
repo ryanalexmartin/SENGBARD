@@ -1,0 +1,26 @@
+{
+  "slug": "SENGBARD",
+  "name": "SENGBARD",
+  "version": "2.0.0",
+  "license": "GPL-3.0-or-later",
+  "brand": "SENGBARD",
+  "author": "Ryan Martin",
+  "authorEmail": "",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "Sequencer",
+      "name": "SENGBARD Sequencer",
+      "description": "3-track polyphonic sequencer with 8 scenes for song arrangement",
+      "tags": [
+        "Sequencer",
+        "Polyphonic"
+      ]
+    }
+  ]
+}

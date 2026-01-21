@@ -1,0 +1,18 @@
+# Dependencies
+Rack-SDK/
+
+# Build artifacts
+plugin/build/
+plugin/dist/
+plugin/*.dylib
+plugin/*.so
+plugin/*.dll
+
+# OS files
+.DS_Store
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
