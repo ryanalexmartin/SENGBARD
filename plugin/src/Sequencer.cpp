@@ -5,10 +5,19 @@ static const int NUM_TRACKS = 3;
 static const int NUM_STEPS = 8;
 static const int NUM_SCENES = 8;
 
-// Clock division ratios - used as: clockPhase += 1.0 / DIVISIONS[index]
-// ÷4 means 4 clocks per step, 8x means 8 steps per clock
-static const float DIVISIONS[] = {4.0f, 2.0f, 1.0f, 0.5f, 0.25f, 0.125f};
-static const int NUM_DIVISIONS = 6;
+// Clock division ratios - musical note values (assuming clock = quarter note)
+// Values > 1 = slower (multiple clocks per step), < 1 = faster (multiple steps per clock)
+static const float DIVISIONS[] = {
+    4.0f,           // 1/1  (whole note) - 4 clocks per step
+    2.0f,           // 1/2  (half note) - 2 clocks per step
+    1.0f,           // 1/4  (quarter note) - 1 clock per step
+    0.5f,           // 1/8  (eighth note) - 2 steps per clock
+    1.0f / 3.0f,    // 1/8T (eighth triplet) - 3 steps per clock
+    0.25f,          // 1/16 (sixteenth note) - 4 steps per clock
+    1.0f / 6.0f,    // 1/16T (sixteenth triplet) - 6 steps per clock
+    0.125f          // 1/32 (thirty-second note) - 8 steps per clock
+};
+static const int NUM_DIVISIONS = 8;
 
 // Direction modes
 enum Direction {
@@ -151,9 +160,13 @@ struct Sequencer : Module {
     float clockPeriod = 0.5f;  // Default to 120 BPM (0.5 sec period)
     float elapsedTime = 0.f;
 
-    // Per-track swing accumulator
+    // Per-track swing state
     float swingAccumulator[NUM_TRACKS] = {0.f, 0.f, 0.f};
     int stepParity[NUM_TRACKS] = {0, 0, 0};  // Tracks odd/even for swing
+    bool pendingSwingGate[NUM_TRACKS] = {false, false, false};  // Gate waiting for swing delay
+    int pendingSwingStep[NUM_TRACKS] = {0, 0, 0};  // Which step is pending (for pitch lookup)
+    float outputPitch[NUM_TRACKS] = {0.f, 0.f, 0.f};  // Current pitch being output (synced with gate)
+    int outputStep[NUM_TRACKS] = {0, 0, 0};  // Current step for LED display (synced with gate)
 
     // Per-track clock multiplication state
     float trackClockPhase[NUM_TRACKS] = {0.f, 0.f, 0.f};  // Phase within current clock period for multiplication
@@ -177,15 +190,15 @@ struct Sequencer : Module {
         // Steps: 1-8
         configParam(TRACK1_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 1 Steps");
         // Division: ÷4, ÷2, 1x, 2x, 4x, 8x (indices 0-5, default 2 = 1x)
-        configSwitch(TRACK1_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 1 Division", {"÷4", "÷2", "1x", "2x", "4x", "8x"});
+        configSwitch(TRACK1_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 1 Division", {"1/1", "1/2", "1/4", "1/8", "1/8T", "1/16", "1/16T", "1/32"});
         configSwitch(TRACK1_DIR_PARAM, 0.f, 3.f, 0.f, "Track 1 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
 
         configParam(TRACK2_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 2 Steps");
-        configSwitch(TRACK2_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 2 Division", {"÷4", "÷2", "1x", "2x", "4x", "8x"});
+        configSwitch(TRACK2_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 2 Division", {"1/1", "1/2", "1/4", "1/8", "1/8T", "1/16", "1/16T", "1/32"});
         configSwitch(TRACK2_DIR_PARAM, 0.f, 3.f, 0.f, "Track 2 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
 
         configParam(TRACK3_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 3 Steps");
-        configSwitch(TRACK3_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 3 Division", {"÷4", "÷2", "1x", "2x", "4x", "8x"});
+        configSwitch(TRACK3_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 3 Division", {"1/1", "1/2", "1/4", "1/8", "1/8T", "1/16", "1/16T", "1/32"});
         configSwitch(TRACK3_DIR_PARAM, 0.f, 3.f, 0.f, "Track 3 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
 
         // Configure pitch encoders (0-5V range, semitone steps would be 1/12V per step)
@@ -252,6 +265,10 @@ struct Sequencer : Module {
             clockPhase[t] = 0.f;
             swingAccumulator[t] = 0.f;
             stepParity[t] = 0;
+            pendingSwingGate[t] = false;
+            pendingSwingStep[t] = 0;
+            outputPitch[t] = 0.f;
+            outputStep[t] = 0;
             trackClockPhase[t] = 0.f;
             trackSubStep[t] = 0;
         }
@@ -455,15 +472,17 @@ struct Sequencer : Module {
         // Output clock
         outputs[CLOCK_OUTPUT].setVoltage(clockOutputPulse.process(args.sampleTime) ? 10.f : 0.f);
 
-        // Calculate gate duration based on pulse width and clock period
-        float gateDuration = clockPeriod * pulseWidth;
-        gateDuration = clamp(gateDuration, 0.001f, clockPeriod * 0.95f);
-
         // Process clock for each track
         for (int t = 0; t < NUM_TRACKS; t++) {
             TrackData& trackData = scene.tracks[t];
             float division = DIVISIONS[trackData.divisionIndex];
             bool shouldAdvance = false;
+
+            // Calculate step duration and gate duration based on division
+            // Step duration = clockPeriod * division (works for both division and multiplication)
+            float stepDuration = clockPeriod * division;
+            float gateDuration = stepDuration * pulseWidth;
+            gateDuration = clamp(gateDuration, 0.001f, stepDuration * 0.95f);
 
             if (division >= 1.f) {
                 // DIVISION MODE (÷4, ÷2, 1x): accumulate clocks, advance after N clocks
@@ -509,31 +528,46 @@ struct Sequencer : Module {
                 advanceStep(t);
                 stepParity[t] = (stepParity[t] + 1) % 2;
 
-                // Apply swing: delay off-beat steps
+                // Apply swing: delay off-beat steps (steps 2, 4, 6, 8 when stepParity == 1)
                 float swingDelay = 0.f;
                 if (stepParity[t] == 1 && swingAmount > 0.f) {
+                    // Swing delay is a fraction of the step duration
+                    // At 100% swing, delay is 50% of the beat (maximum shuffle)
                     swingDelay = clockPeriod * (division >= 1.f ? division : 1.f) * swingAmount * 0.5f;
                 }
 
                 // Trigger gate pulse if this step has gate enabled
                 if (trackData.gates[currentStep[t]]) {
                     if (swingDelay > 0.001f) {
+                        // Swing: delay gate, pitch, AND LED update
                         swingAccumulator[t] = swingDelay;
+                        pendingSwingGate[t] = true;
+                        pendingSwingStep[t] = currentStep[t];  // Remember which step to play
                     } else {
+                        // No swing: fire immediately, update pitch and LED now
                         gatePulse[t].trigger(gateDuration);
+                        outputPitch[t] = trackData.pitches[currentStep[t]];
+                        outputStep[t] = currentStep[t];
+                    }
+                } else {
+                    // Gate disabled but still update pitch/LED for non-swung steps
+                    if (swingDelay <= 0.001f) {
+                        outputPitch[t] = trackData.pitches[currentStep[t]];
+                        outputStep[t] = currentStep[t];
                     }
                 }
             }
 
-            // Process swing delay
-            if (swingAccumulator[t] > 0.f) {
+            // Process swing delay (outside shouldAdvance block - runs every sample)
+            if (pendingSwingGate[t] && swingAccumulator[t] > 0.f) {
                 swingAccumulator[t] -= args.sampleTime;
                 if (swingAccumulator[t] <= 0.f) {
                     swingAccumulator[t] = 0.f;
-                    // Trigger the delayed gate
-                    if (scene.tracks[t].gates[currentStep[t]]) {
-                        gatePulse[t].trigger(gateDuration);
-                    }
+                    // Fire the delayed gate AND update pitch/LED now
+                    gatePulse[t].trigger(gateDuration);
+                    outputPitch[t] = scene.tracks[t].pitches[pendingSwingStep[t]];
+                    outputStep[t] = pendingSwingStep[t];
+                    pendingSwingGate[t] = false;
                 }
             }
 
@@ -550,8 +584,8 @@ struct Sequencer : Module {
         for (int t = 0; t < NUM_TRACKS; t++) {
             TrackData& trackData = scene.tracks[t];
 
-            // Output pitch CV for current step
-            outputs[pitchOutputs[t]].setVoltage(trackData.pitches[currentStep[t]]);
+            // Output pitch CV (synced with gate - delayed by swing if active)
+            outputs[pitchOutputs[t]].setVoltage(outputPitch[t]);
 
             // Output gate (use pulse generator if running, otherwise static)
             bool gateOn;
@@ -568,12 +602,28 @@ struct Sequencer : Module {
 
         // Update gate LEDs
         for (int t = 0; t < NUM_TRACKS; t++) {
+            // Check if gate output is currently high (respects pulse width)
+            // Note: gatePulse[t].process() was already called above, so check remaining
+            bool gateOutputHigh = gatePulse[t].remaining > 0.f;
+
             for (int s = 0; s < NUM_STEPS; s++) {
                 int idx = t * NUM_STEPS + s;
-                // Gate on/off indicator (yellow)
+                // Gate on/off indicator (yellow) - shows programmed gate state
                 lights[GATE_LIGHTS + idx].setBrightness(scene.tracks[t].gates[s] ? 1.f : 0.1f);
-                // Current step indicator (green)
-                lights[STEP_LIGHTS + idx].setBrightness(currentStep[t] == s ? 1.f : 0.f);
+
+                // Current step indicator (green) - uses outputStep which syncs with gate/pitch
+                // This shows swing (LED moves when note plays) and pulse width (brightness)
+                if (outputStep[t] == s) {
+                    if (isRunning) {
+                        // Show gate output state: bright when gate high, dim when gate low
+                        lights[STEP_LIGHTS + idx].setBrightness(gateOutputHigh ? 1.f : 0.3f);
+                    } else {
+                        // Not running - just show position
+                        lights[STEP_LIGHTS + idx].setBrightness(1.f);
+                    }
+                } else {
+                    lights[STEP_LIGHTS + idx].setBrightness(0.f);
+                }
             }
         }
 
