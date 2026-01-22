@@ -5,8 +5,9 @@ static const int NUM_TRACKS = 3;
 static const int NUM_STEPS = 8;
 static const int NUM_SCENES = 8;
 
-// Clock division ratios
-static const float DIVISIONS[] = {0.25f, 0.5f, 1.0f, 2.0f, 4.0f, 8.0f};
+// Clock division ratios - used as: clockPhase += 1.0 / DIVISIONS[index]
+// ÷4 means 4 clocks per step, 8x means 8 steps per clock
+static const float DIVISIONS[] = {4.0f, 2.0f, 1.0f, 0.5f, 0.25f, 0.125f};
 static const int NUM_DIVISIONS = 6;
 
 // Direction modes
@@ -37,6 +38,7 @@ struct Sequencer : Module {
         // Internal clock controls
         BPM_PARAM,
         RUN_PARAM,
+        RST_PARAM,  // Manual reset button
         // Track 1 controls
         TRACK1_STEPS_PARAM,
         TRACK1_DIV_PARAM,
@@ -58,6 +60,9 @@ struct Sequencer : Module {
         // Modifier buttons
         COPY_PARAM,
         DELETE_PARAM,
+        // Groove controls
+        SWING_PARAM,
+        PW_PARAM,
         PARAMS_LEN
     };
     enum InputId {
@@ -69,6 +74,8 @@ struct Sequencer : Module {
     enum OutputId {
         // Clock output
         CLOCK_OUTPUT,
+        // Reset output
+        RESET_OUTPUT,
         // Track outputs
         TRACK1_PITCH_OUTPUT,
         TRACK1_GATE_OUTPUT,
@@ -83,6 +90,8 @@ struct Sequencer : Module {
     enum LightId {
         // Run indicator
         RUN_LIGHT,
+        // Reset indicator
+        RST_LIGHT,
         // Step gate LEDs (24 total)
         ENUMS(GATE_LIGHTS, NUM_TRACKS * NUM_STEPS),
         // Current step indicator LEDs (24 total) - green for active step
@@ -123,6 +132,10 @@ struct Sequencer : Module {
     dsp::PulseGenerator clockOutputPulse;
     dsp::SchmittTrigger runTrigger;
 
+    // Reset button state
+    dsp::SchmittTrigger rstButtonTrigger;
+    dsp::PulseGenerator resetOutputPulse;
+
     // Track if we're in the middle of a gate (for sustain behavior)
     bool gateHigh[NUM_TRACKS] = {false, false, false};
     float lastClockTime[NUM_TRACKS] = {0.f, 0.f, 0.f};
@@ -133,24 +146,46 @@ struct Sequencer : Module {
     // Gate button state tracking (for toggle behavior)
     bool gateButtonStates[NUM_TRACKS * NUM_STEPS] = {false};
 
+    // Clock period tracking for pulse width calculation
+    float lastClockRiseTime = 0.f;
+    float clockPeriod = 0.5f;  // Default to 120 BPM (0.5 sec period)
+    float elapsedTime = 0.f;
+
+    // Per-track swing accumulator
+    float swingAccumulator[NUM_TRACKS] = {0.f, 0.f, 0.f};
+    int stepParity[NUM_TRACKS] = {0, 0, 0};  // Tracks odd/even for swing
+
+    // Per-track clock multiplication state
+    float trackClockPhase[NUM_TRACKS] = {0.f, 0.f, 0.f};  // Phase within current clock period for multiplication
+    int trackSubStep[NUM_TRACKS] = {0, 0, 0};  // Which sub-step we're on (for 2x, 4x, 8x)
+
+    // Debug: track actual values being used
+    float debugBpm = 120.f;
+    float debugFreq = 2.f;
+    bool debugUsingInternal = true;
+    int debugClockCount = 0;
+
     Sequencer() {
         config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 
         // Configure internal clock controls
         configParam(BPM_PARAM, 30.f, 300.f, 120.f, "BPM");
         configButton(RUN_PARAM, "Run/Stop");
+        configButton(RST_PARAM, "Reset");
 
         // Configure track controls
+        // Steps: 1-8
         configParam(TRACK1_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 1 Steps");
-        configParam(TRACK1_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 1 Division");
+        // Division: ÷4, ÷2, 1x, 2x, 4x, 8x (indices 0-5, default 2 = 1x)
+        configSwitch(TRACK1_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 1 Division", {"÷4", "÷2", "1x", "2x", "4x", "8x"});
         configSwitch(TRACK1_DIR_PARAM, 0.f, 3.f, 0.f, "Track 1 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
 
         configParam(TRACK2_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 2 Steps");
-        configParam(TRACK2_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 2 Division");
+        configSwitch(TRACK2_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 2 Division", {"÷4", "÷2", "1x", "2x", "4x", "8x"});
         configSwitch(TRACK2_DIR_PARAM, 0.f, 3.f, 0.f, "Track 2 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
 
         configParam(TRACK3_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 3 Steps");
-        configParam(TRACK3_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 3 Division");
+        configSwitch(TRACK3_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 3 Division", {"÷4", "÷2", "1x", "2x", "4x", "8x"});
         configSwitch(TRACK3_DIR_PARAM, 0.f, 3.f, 0.f, "Track 3 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
 
         // Configure pitch encoders (0-5V range, semitone steps would be 1/12V per step)
@@ -179,6 +214,10 @@ struct Sequencer : Module {
         configButton(COPY_PARAM, "Copy Scene");
         configButton(DELETE_PARAM, "Delete Scene");
 
+        // Configure groove controls
+        configParam(SWING_PARAM, 0.f, 100.f, 0.f, "Swing", "%");
+        configParam(PW_PARAM, 10.f, 90.f, 50.f, "Pulse Width", "%");
+
         // Configure inputs
         configInput(CLOCK_INPUT, "Clock");
         configInput(RESET_INPUT, "Reset");
@@ -186,6 +225,7 @@ struct Sequencer : Module {
 
         // Configure outputs
         configOutput(CLOCK_OUTPUT, "Clock");
+        configOutput(RESET_OUTPUT, "Reset");
         configOutput(TRACK1_PITCH_OUTPUT, "Track 1 Pitch CV");
         configOutput(TRACK1_GATE_OUTPUT, "Track 1 Gate");
         configOutput(TRACK2_PITCH_OUTPUT, "Track 2 Pitch CV");
@@ -210,10 +250,16 @@ struct Sequencer : Module {
             currentStep[t] = 0;
             pendulumDir[t] = 1;
             clockPhase[t] = 0.f;
+            swingAccumulator[t] = 0.f;
+            stepParity[t] = 0;
+            trackClockPhase[t] = 0.f;
+            trackSubStep[t] = 0;
         }
         // Reset internal clock state
         isRunning = true;
         internalClockPhase = 0.f;
+        elapsedTime = 0.f;
+        lastClockRiseTime = 0.f;
     }
 
     void advanceStep(int track) {
@@ -279,14 +325,21 @@ struct Sequencer : Module {
             }
         }
 
-        // Handle reset input
-        if (resetTrigger.process(inputs[RESET_INPUT].getVoltage())) {
+        // Handle reset (from input or button)
+        bool resetFromInput = resetTrigger.process(inputs[RESET_INPUT].getVoltage());
+        bool resetFromButton = rstButtonTrigger.process(params[RST_PARAM].getValue() > 0.f);
+        if (resetFromInput || resetFromButton) {
             for (int t = 0; t < NUM_TRACKS; t++) {
                 currentStep[t] = 0;
                 pendulumDir[t] = 1;
                 clockPhase[t] = 0.f;
             }
+            internalClockPhase = 0.f;
+            resetOutputPulse.trigger(0.001f);  // 1ms reset pulse
         }
+
+        // Output reset pulse
+        outputs[RESET_OUTPUT].setVoltage(resetOutputPulse.process(args.sampleTime) ? 10.f : 0.f);
 
         // Handle scene CV input (0-7V maps to scenes 1-8)
         if (inputs[SCENE_CV_INPUT].isConnected()) {
@@ -350,26 +403,51 @@ struct Sequencer : Module {
             isRunning = !isRunning;
         }
 
+        // Track elapsed time
+        elapsedTime += args.sampleTime;
+
+        // Read BPM at the start - this value controls internal clock speed
+        float bpm = params[BPM_PARAM].getValue();
+
+        // Read groove params
+        float swingAmount = params[SWING_PARAM].getValue() / 100.f;  // 0-1
+        float pulseWidth = params[PW_PARAM].getValue() / 100.f;      // 0.1-0.9
+
         // Determine clock source and generate clock
         bool useInternalClock = !inputs[CLOCK_INPUT].isConnected();
         bool clockRising = false;
 
+        // Always update clock period based on BPM (used for pulse width)
+        float clockFreq = bpm / 60.f;
+        clockPeriod = 1.f / clockFreq;
+
+        // Debug: store values for display
+        debugBpm = bpm;
+        debugFreq = clockFreq;
+        debugUsingInternal = useInternalClock;
+
         if (isRunning) {
             if (useInternalClock) {
-                // Generate internal clock
-                float bpm = params[BPM_PARAM].getValue();
-                float freq = bpm / 60.f;
-                internalClockPhase += freq * args.sampleTime;
+                // Generate internal clock using BPM
+                internalClockPhase += clockFreq * args.sampleTime;
                 if (internalClockPhase >= 1.f) {
                     internalClockPhase -= 1.f;
                     clockRising = true;
                     clockOutputPulse.trigger(0.001f);  // 1ms pulse
+                    debugClockCount++;  // Debug: count clock pulses
                 }
             } else {
                 // Use external clock
                 clockRising = clockTrigger.process(inputs[CLOCK_INPUT].getVoltage());
                 if (clockRising) {
+                    // Calculate clock period from external clock (overrides BPM-based period)
+                    float timeSinceLastClock = elapsedTime - lastClockRiseTime;
+                    if (timeSinceLastClock > 0.01f && timeSinceLastClock < 4.f) {
+                        clockPeriod = timeSinceLastClock;
+                    }
+                    lastClockRiseTime = elapsedTime;
                     clockOutputPulse.trigger(0.001f);  // Pass through clock
+                    debugClockCount++;  // Debug: count clock pulses
                 }
             }
         }
@@ -377,20 +455,84 @@ struct Sequencer : Module {
         // Output clock
         outputs[CLOCK_OUTPUT].setVoltage(clockOutputPulse.process(args.sampleTime) ? 10.f : 0.f);
 
+        // Calculate gate duration based on pulse width and clock period
+        float gateDuration = clockPeriod * pulseWidth;
+        gateDuration = clamp(gateDuration, 0.001f, clockPeriod * 0.95f);
+
         // Process clock for each track
         for (int t = 0; t < NUM_TRACKS; t++) {
             TrackData& trackData = scene.tracks[t];
             float division = DIVISIONS[trackData.divisionIndex];
+            bool shouldAdvance = false;
 
-            // Handle clock
-            if (clockRising) {
-                clockPhase[t] += 1.f / division;
-                if (clockPhase[t] >= 1.f) {
-                    clockPhase[t] -= 1.f;
-                    advanceStep(t);
-                    // Trigger gate pulse if this step has gate enabled
-                    if (trackData.gates[currentStep[t]]) {
-                        gatePulse[t].trigger(0.01f);  // 10ms gate pulse
+            if (division >= 1.f) {
+                // DIVISION MODE (÷4, ÷2, 1x): accumulate clocks, advance after N clocks
+                if (clockRising) {
+                    clockPhase[t] += 1.f / division;
+                    if (clockPhase[t] >= 1.f) {
+                        clockPhase[t] -= 1.f;
+                        shouldAdvance = true;
+                    }
+                }
+            } else {
+                // MULTIPLICATION MODE (2x, 4x, 8x): generate sub-steps between clocks
+                // division < 1 means we need multiple steps per clock
+                // e.g., division = 0.5 means 2 steps per clock (2x)
+                int stepsPerClock = (int)(1.f / division);  // 2, 4, or 8
+
+                if (clockRising) {
+                    // Reset sub-step counter and phase on each clock
+                    trackSubStep[t] = 0;
+                    trackClockPhase[t] = 0.f;
+                    shouldAdvance = true;  // First step happens on the clock
+                } else if (isRunning && clockPeriod > 0.f) {
+                    // Generate intermediate steps between clocks
+                    trackClockPhase[t] += args.sampleTime;
+                    float stepInterval = clockPeriod / stepsPerClock;
+                    int expectedSubStep = (int)(trackClockPhase[t] / stepInterval);
+
+                    // Clamp to avoid advancing beyond what we should before next clock
+                    if (expectedSubStep >= stepsPerClock) {
+                        expectedSubStep = stepsPerClock - 1;
+                    }
+
+                    // If we've reached a new sub-step, advance
+                    if (expectedSubStep > trackSubStep[t]) {
+                        trackSubStep[t] = expectedSubStep;
+                        shouldAdvance = true;
+                    }
+                }
+            }
+
+            // Advance step and trigger gate if needed
+            if (shouldAdvance) {
+                advanceStep(t);
+                stepParity[t] = (stepParity[t] + 1) % 2;
+
+                // Apply swing: delay off-beat steps
+                float swingDelay = 0.f;
+                if (stepParity[t] == 1 && swingAmount > 0.f) {
+                    swingDelay = clockPeriod * (division >= 1.f ? division : 1.f) * swingAmount * 0.5f;
+                }
+
+                // Trigger gate pulse if this step has gate enabled
+                if (trackData.gates[currentStep[t]]) {
+                    if (swingDelay > 0.001f) {
+                        swingAccumulator[t] = swingDelay;
+                    } else {
+                        gatePulse[t].trigger(gateDuration);
+                    }
+                }
+            }
+
+            // Process swing delay
+            if (swingAccumulator[t] > 0.f) {
+                swingAccumulator[t] -= args.sampleTime;
+                if (swingAccumulator[t] <= 0.f) {
+                    swingAccumulator[t] = 0.f;
+                    // Trigger the delayed gate
+                    if (scene.tracks[t].gates[currentStep[t]]) {
+                        gatePulse[t].trigger(gateDuration);
                     }
                 }
             }
@@ -455,6 +597,9 @@ struct Sequencer : Module {
 
         // Run indicator light
         lights[RUN_LIGHT].setBrightness(isRunning ? 1.f : 0.f);
+
+        // Reset indicator light (brief flash when reset occurs)
+        lights[RST_LIGHT].setBrightness(resetOutputPulse.remaining > 0.f ? 1.f : 0.f);
     }
 
     void loadSceneToParams() {
@@ -593,16 +738,41 @@ struct BpmDisplay : Widget {
         nvgFillColor(args.vg, nvgRGB(0, 0, 0));
         nvgFill(args.vg);
 
-        // Draw BPM text
-        std::string text = "120";
         if (module) {
-            float bpm = module->params[Sequencer::BPM_PARAM].getValue();
-            text = string::f("%.0f", bpm);
+            float displayBpm;
+            std::string modeText;
+            NVGcolor modeColor;
+
+            if (module->debugUsingInternal) {
+                // Internal clock - show BPM from knob
+                displayBpm = module->params[Sequencer::BPM_PARAM].getValue();
+                modeText = "INT";
+                modeColor = nvgRGB(0, 255, 100);
+            } else {
+                // External clock - calculate BPM from clock period
+                displayBpm = 60.f / module->clockPeriod;
+                modeText = "EXT";
+                modeColor = nvgRGB(100, 150, 255);
+            }
+
+            // Main BPM display (large)
+            std::string bpmText = string::f("%.0f", displayBpm);
+            nvgFontSize(args.vg, 14);
+            nvgFillColor(args.vg, nvgRGB(255, 200, 50));  // Amber color
+            nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+            nvgText(args.vg, box.size.x / 2, box.size.y / 2 - 4, bpmText.c_str(), NULL);
+
+            // Mode indicator (small, at bottom)
+            nvgFontSize(args.vg, 8);
+            nvgFillColor(args.vg, modeColor);
+            nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_BOTTOM);
+            nvgText(args.vg, box.size.x / 2, box.size.y - 1, modeText.c_str(), NULL);
+        } else {
+            nvgFontSize(args.vg, 14);
+            nvgFillColor(args.vg, nvgRGB(255, 200, 50));
+            nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+            nvgText(args.vg, box.size.x / 2, box.size.y / 2, "120", NULL);
         }
-        nvgFontSize(args.vg, 12);
-        nvgFillColor(args.vg, nvgRGB(255, 200, 50));  // Amber color
-        nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-        nvgText(args.vg, box.size.x / 2, box.size.y / 2, text.c_str(), NULL);
     }
 };
 
@@ -611,112 +781,148 @@ struct SequencerWidget : ModuleWidget {
         setModule(module);
         setPanel(createPanel(asset::plugin(pluginInstance, "res/Sequencer.svg")));
 
-        // Add screws (24 HP module)
+        // Add screws (28 HP module)
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-        // Layout constants for 24HP (121.92mm wide) panel
-        const float trackHeight = 30.f;   // Spacing between track rows
-        const float trackStartY = 26.f;   // First track Y position (center of track area)
-        const float controlX = 9.f;       // X position for STEPS knob
-        const float stepStartX = 38.f;    // X position for first step encoder
-        const float stepSpacing = 8.f;    // Spacing between step encoders
-        const float outputX = 112.f;      // X position for outputs
-
-        // Track controls and step grid for each track
-        for (int t = 0; t < NUM_TRACKS; t++) {
-            float trackY = trackStartY + t * trackHeight;
-
-            // STEPS knob
-            int stepsParam = (t == 0) ? Sequencer::TRACK1_STEPS_PARAM :
-                            (t == 1) ? Sequencer::TRACK2_STEPS_PARAM : Sequencer::TRACK3_STEPS_PARAM;
-            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(controlX, trackY)), module, stepsParam));
-
-            // DIV knob
-            int divParam = (t == 0) ? Sequencer::TRACK1_DIV_PARAM :
-                          (t == 1) ? Sequencer::TRACK2_DIV_PARAM : Sequencer::TRACK3_DIV_PARAM;
-            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(controlX + 10, trackY)), module, divParam));
-
-            // DIR switch (snap knob)
-            int dirParam = (t == 0) ? Sequencer::TRACK1_DIR_PARAM :
-                          (t == 1) ? Sequencer::TRACK2_DIR_PARAM : Sequencer::TRACK3_DIR_PARAM;
-            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(controlX + 20, trackY)), module, dirParam));
-
-            // Step pitch encoders and gate buttons (8 steps)
-            for (int s = 0; s < NUM_STEPS; s++) {
-                float stepX = stepStartX + s * stepSpacing;
-                int idx = t * NUM_STEPS + s;
-
-                // Pitch encoder (top)
-                addParam(createParamCentered<Trimpot>(mm2px(Vec(stepX, trackY - 5)), module, Sequencer::PITCH_PARAMS + idx));
-
-                // Gate button with LED (bottom)
-                addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(stepX, trackY + 5)), module, Sequencer::GATE_LIGHTS + idx));
-                addParam(createParamCentered<LEDButton>(mm2px(Vec(stepX, trackY + 5)), module, Sequencer::GATE_PARAMS + idx));
-
-                // Step position LED (green dot below gate)
-                addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(stepX, trackY + 10)), module, Sequencer::STEP_LIGHTS + idx));
-            }
-
-            // Track outputs
-            int pitchOut = (t == 0) ? Sequencer::TRACK1_PITCH_OUTPUT :
-                          (t == 1) ? Sequencer::TRACK2_PITCH_OUTPUT : Sequencer::TRACK3_PITCH_OUTPUT;
-            int gateOut = (t == 0) ? Sequencer::TRACK1_GATE_OUTPUT :
-                         (t == 1) ? Sequencer::TRACK2_GATE_OUTPUT : Sequencer::TRACK3_GATE_OUTPUT;
-
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outputX, trackY - 5)), module, pitchOut));
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outputX, trackY + 5)), module, gateOut));
-        }
-
-        // Bottom section
-        float bottomY = 115.f;
-
-        // Internal clock controls (left side, compact vertical stack)
-        // BPM display (small LCD-style)
+        // ========== CLOCK COLUMN (left side, x=10 center) ==========
+        // BPM display (x=3-17, y=20-28)
         BpmDisplay* bpmDisplay = new BpmDisplay();
-        bpmDisplay->box.pos = mm2px(Vec(3, 97));
-        bpmDisplay->box.size = mm2px(Vec(12, 5));
+        bpmDisplay->box.pos = mm2px(Vec(3, 20));
+        bpmDisplay->box.size = mm2px(Vec(14, 8));
         bpmDisplay->module = module;
         addChild(bpmDisplay);
 
-        // BPM knob (to the right of display)
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(19, 99.5f)), module, Sequencer::BPM_PARAM));
+        // BPM knob (cx=10, cy=35)
+        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(10, 35)), module, Sequencer::BPM_PARAM));
 
-        // Run button with LED
-        addChild(createLightCentered<MediumLight<GreenLight>>(mm2px(Vec(9, 107)), module, Sequencer::RUN_LIGHT));
-        addParam(createParamCentered<LEDButton>(mm2px(Vec(9, 107)), module, Sequencer::RUN_PARAM));
+        // RUN button with LED (cx=10, cy=50)
+        addChild(createLightCentered<MediumLight<GreenLight>>(mm2px(Vec(10, 50)), module, Sequencer::RUN_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(10, 50)), module, Sequencer::RUN_PARAM));
 
-        // Clock I/O and Reset (bottom row, left side)
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(6, bottomY)), module, Sequencer::CLOCK_OUTPUT));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15, bottomY)), module, Sequencer::CLOCK_INPUT));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(24, bottomY)), module, Sequencer::RESET_INPUT));
+        // CLK IN jack (cx=10, cy=66)
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(10, 66)), module, Sequencer::CLOCK_INPUT));
 
-        // Scene buttons (center, 2x4 grid)
-        float sceneStartX = 35.f;
-        float sceneSpacingX = 10.f;
-        float sceneSpacingY = 8.f;
+        // RST button with LED (cx=10, cy=84)
+        addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(10, 84)), module, Sequencer::RST_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(10, 84)), module, Sequencer::RST_PARAM));
+
+        // RST IN jack (cx=10, cy=100)
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(10, 100)), module, Sequencer::RESET_INPUT));
+
+        // ========== TRACK 1 (y=11-38) ==========
+        // Vertical track controls at x=26
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 22)), module, Sequencer::TRACK1_STEPS_PARAM));  // STP
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 28)), module, Sequencer::TRACK1_DIV_PARAM));    // DIV
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 34)), module, Sequencer::TRACK1_DIR_PARAM));    // DIR
+
+        // Pitch knobs at y=22, spacing 9mm starting at x=42
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x, 22)), module, Sequencer::PITCH_PARAMS + s));
+        }
+        // Gate buttons at y=31
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x, 31)), module, Sequencer::GATE_LIGHTS + s));
+            addParam(createParamCentered<LEDButton>(mm2px(Vec(x, 31)), module, Sequencer::GATE_PARAMS + s));
+        }
+        // Step LEDs at y=36
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x, 36)), module, Sequencer::STEP_LIGHTS + s));
+        }
+        // Track 1 outputs (cx=127.18, cy=19 and 31)
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 19)), module, Sequencer::TRACK1_PITCH_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 31)), module, Sequencer::TRACK1_GATE_OUTPUT));
+
+        // ========== TRACK 2 (y=40-67) ==========
+        // Vertical track controls at x=26
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 51)), module, Sequencer::TRACK2_STEPS_PARAM));  // STP
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 57)), module, Sequencer::TRACK2_DIV_PARAM));    // DIV
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 63)), module, Sequencer::TRACK2_DIR_PARAM));    // DIR
+
+        // Pitch knobs at y=51
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x, 51)), module, Sequencer::PITCH_PARAMS + NUM_STEPS + s));
+        }
+        // Gate buttons at y=60
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x, 60)), module, Sequencer::GATE_LIGHTS + NUM_STEPS + s));
+            addParam(createParamCentered<LEDButton>(mm2px(Vec(x, 60)), module, Sequencer::GATE_PARAMS + NUM_STEPS + s));
+        }
+        // Step LEDs at y=65
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x, 65)), module, Sequencer::STEP_LIGHTS + NUM_STEPS + s));
+        }
+        // Track 2 outputs (cx=127.18, cy=48 and 60)
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 48)), module, Sequencer::TRACK2_PITCH_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 60)), module, Sequencer::TRACK2_GATE_OUTPUT));
+
+        // ========== TRACK 3 (y=69-96) ==========
+        // Vertical track controls at x=26
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 80)), module, Sequencer::TRACK3_STEPS_PARAM));  // STP
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 86)), module, Sequencer::TRACK3_DIV_PARAM));    // DIV
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 92)), module, Sequencer::TRACK3_DIR_PARAM));    // DIR
+
+        // Pitch knobs at y=80
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x, 80)), module, Sequencer::PITCH_PARAMS + 2 * NUM_STEPS + s));
+        }
+        // Gate buttons at y=89
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x, 89)), module, Sequencer::GATE_LIGHTS + 2 * NUM_STEPS + s));
+            addParam(createParamCentered<LEDButton>(mm2px(Vec(x, 89)), module, Sequencer::GATE_PARAMS + 2 * NUM_STEPS + s));
+        }
+        // Step LEDs at y=94
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float x = 42 + s * 9;
+            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x, 94)), module, Sequencer::STEP_LIGHTS + 2 * NUM_STEPS + s));
+        }
+        // Track 3 outputs (cx=127.18, cy=77 and 89)
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 77)), module, Sequencer::TRACK3_PITCH_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 89)), module, Sequencer::TRACK3_GATE_OUTPUT));
+
+        // ========== BOTTOM SECTION (y=98-126) ==========
+        // GROOVE section - SWG knob (cx=27, cy=112), PW knob (cx=38, cy=112)
+        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(27, 112)), module, Sequencer::SWING_PARAM));
+        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(38, 112)), module, Sequencer::PW_PARAM));
+
+        // MOD section - CPY button (cx=50, cy=110), DEL button (cx=50, cy=118)
+        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(50, 110)), module, Sequencer::COPY_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(50, 110)), module, Sequencer::COPY_PARAM));
+
+        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(50, 118)), module, Sequencer::DELETE_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(50, 118)), module, Sequencer::DELETE_PARAM));
+
+        // SCV IN jack (cx=64, cy=114)
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(64, 114)), module, Sequencer::SCENE_CV_INPUT));
+
+        // SCENES section - 2x4 grid
+        // Row 1 (cy=110): scenes 1-4 at cx=74, 82, 90, 98
+        // Row 2 (cy=118): scenes 5-8 at cx=74, 82, 90, 98
+        float sceneX[4] = {74, 82, 90, 98};
         for (int s = 0; s < NUM_SCENES; s++) {
             int row = s / 4;
             int col = s % 4;
-            float x = sceneStartX + col * sceneSpacingX;
-            float y = bottomY - 4 + row * sceneSpacingY;
+            float x = sceneX[col];
+            float y = (row == 0) ? 110 : 118;
 
             addChild(createLightCentered<MediumLight<RedGreenBlueLight>>(mm2px(Vec(x, y)), module, Sequencer::SCENE_LIGHTS + s * 3));
             addParam(createParamCentered<LEDButton>(mm2px(Vec(x, y)), module, Sequencer::SCENE_PARAMS + s));
         }
 
-        // Copy/Delete buttons
-        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(78, bottomY - 4)), module, Sequencer::COPY_LIGHT));
-        addParam(createParamCentered<LEDButton>(mm2px(Vec(78, bottomY - 4)), module, Sequencer::COPY_PARAM));
-
-        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(78, bottomY + 4)), module, Sequencer::DELETE_LIGHT));
-        addParam(createParamCentered<LEDButton>(mm2px(Vec(78, bottomY + 4)), module, Sequencer::DELETE_PARAM));
-
-        // Scene CV I/O (right side)
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(100, bottomY)), module, Sequencer::SCENE_CV_INPUT));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(112, bottomY)), module, Sequencer::SCENE_CV_OUTPUT));
+        // OUTPUTS section - CLK OUT (cx=112, cy=111), RST OUT (cx=124, cy=111), SCV OUT (cx=134, cy=111)
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(112, 111)), module, Sequencer::CLOCK_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(124, 111)), module, Sequencer::RESET_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(134, 111)), module, Sequencer::SCENE_CV_OUTPUT));
     }
 };
 
