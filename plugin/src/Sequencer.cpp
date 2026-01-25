@@ -6,7 +6,6 @@ static const int NUM_STEPS = 8;
 static const int NUM_SCENES = 8;
 
 // Clock division ratios - musical note values (assuming clock = quarter note)
-// Values > 1 = slower (multiple clocks per step), < 1 = faster (multiple steps per clock)
 static const float DIVISIONS[] = {
     4.0f,           // 1/1  (whole note) - 4 clocks per step
     2.0f,           // 1/2  (half note) - 2 clocks per step
@@ -29,10 +28,10 @@ enum Direction {
 
 // Track data structure
 struct TrackData {
-    int stepCount = 8;           // 1-8 steps
-    int divisionIndex = 2;       // Index into DIVISIONS array (default 1x)
+    int stepCount = 8;
+    int divisionIndex = 2;  // Default 1/4
     Direction direction = DIR_FORWARD;
-    float pitches[NUM_STEPS] = {0.f};  // Pitch CV values (0-5V, semitones)
+    float pitches[NUM_STEPS] = {0.f};
     bool gates[NUM_STEPS] = {true, true, true, true, true, true, true, true};
 };
 
@@ -47,24 +46,18 @@ struct Sequencer : Module {
         // Internal clock controls
         BPM_PARAM,
         RUN_PARAM,
-        RST_PARAM,  // Manual reset button
-        // Track 1 controls
-        TRACK1_STEPS_PARAM,
-        TRACK1_DIV_PARAM,
-        TRACK1_DIR_PARAM,
-        // Track 2 controls
-        TRACK2_STEPS_PARAM,
-        TRACK2_DIV_PARAM,
-        TRACK2_DIR_PARAM,
-        // Track 3 controls
-        TRACK3_STEPS_PARAM,
-        TRACK3_DIV_PARAM,
-        TRACK3_DIR_PARAM,
-        // Step pitch encoders (24 total: 8 per track)
-        ENUMS(PITCH_PARAMS, NUM_TRACKS * NUM_STEPS),
-        // Step gate buttons (24 total: 8 per track)
+        RST_PARAM,
+        // Track select buttons (radio-style, one active at a time)
+        ENUMS(TRACK_SELECT_PARAMS, NUM_TRACKS),
+        // Track controls (apply to selected track)
+        STEPS_PARAM,
+        DIV_PARAM,
+        DIR_PARAM,
+        // Step pitch encoders (8 shared, edit selected track)
+        ENUMS(PITCH_PARAMS, NUM_STEPS),
+        // Step gate buttons (24 total: 8 steps × 3 tracks in grid)
         ENUMS(GATE_PARAMS, NUM_TRACKS * NUM_STEPS),
-        // Scene buttons (8 total)
+        // Scene buttons
         ENUMS(SCENE_PARAMS, NUM_SCENES),
         // Modifier buttons
         COPY_PARAM,
@@ -81,173 +74,151 @@ struct Sequencer : Module {
         INPUTS_LEN
     };
     enum OutputId {
-        // Clock output
         CLOCK_OUTPUT,
-        // Reset output
         RESET_OUTPUT,
-        // Track outputs
         TRACK1_PITCH_OUTPUT,
         TRACK1_GATE_OUTPUT,
         TRACK2_PITCH_OUTPUT,
         TRACK2_GATE_OUTPUT,
         TRACK3_PITCH_OUTPUT,
         TRACK3_GATE_OUTPUT,
-        // Scene CV output
         SCENE_CV_OUTPUT,
         OUTPUTS_LEN
     };
     enum LightId {
-        // Run indicator
         RUN_LIGHT,
-        // Reset indicator
         RST_LIGHT,
-        // Step gate LEDs (24 total)
+        // Track select indicator LEDs
+        ENUMS(TRACK_SELECT_LIGHTS, NUM_TRACKS),
+        // Gate LEDs (24 total: 8 steps × 3 tracks)
         ENUMS(GATE_LIGHTS, NUM_TRACKS * NUM_STEPS),
-        // Current step indicator LEDs (24 total) - green for active step
+        // Step position LEDs (24 total: 8 steps × 3 tracks)
         ENUMS(STEP_LIGHTS, NUM_TRACKS * NUM_STEPS),
-        // Scene LEDs (8 total, RGB)
+        // Scene LEDs (RGB)
         ENUMS(SCENE_LIGHTS, NUM_SCENES * 3),
-        // Copy/Delete indicator lights
         COPY_LIGHT,
         DELETE_LIGHT,
         LIGHTS_LEN
     };
 
-    // Internal state
+    // Scene and track state
     SceneData scenes[NUM_SCENES];
     int currentScene = 0;
-    int copySourceScene = -1;  // -1 means no copy in progress
-    bool deleteMode = false;    // Toggle for delete mode
+    int selectedTrack = 0;  // Which track the encoders control (0-2)
+    int copySourceScene = -1;
+    bool deleteMode = false;
 
     // Per-track playback state
     int currentStep[NUM_TRACKS] = {0, 0, 0};
-    int pendulumDir[NUM_TRACKS] = {1, 1, 1};  // 1 = forward, -1 = reverse
+    int pendulumDir[NUM_TRACKS] = {1, 1, 1};
     float clockPhase[NUM_TRACKS] = {0.f, 0.f, 0.f};
 
-    // Clock detection
+    // Triggers
     dsp::SchmittTrigger clockTrigger;
     dsp::SchmittTrigger resetTrigger;
     dsp::SchmittTrigger sceneTriggers[NUM_SCENES];
+    dsp::SchmittTrigger trackSelectTriggers[NUM_TRACKS];
     dsp::SchmittTrigger copyTrigger;
     dsp::SchmittTrigger deleteTrigger;
     dsp::SchmittTrigger gateTriggers[NUM_TRACKS * NUM_STEPS];
+    dsp::SchmittTrigger runTrigger;
+    dsp::SchmittTrigger rstButtonTrigger;
 
     // Gate pulse generators
     dsp::PulseGenerator gatePulse[NUM_TRACKS];
+    dsp::PulseGenerator clockOutputPulse;
+    dsp::PulseGenerator resetOutputPulse;
 
     // Internal clock state
     float internalClockPhase = 0.f;
     bool isRunning = true;
-    dsp::PulseGenerator clockOutputPulse;
-    dsp::SchmittTrigger runTrigger;
 
-    // Reset button state
-    dsp::SchmittTrigger rstButtonTrigger;
-    dsp::PulseGenerator resetOutputPulse;
-
-    // Track if we're in the middle of a gate (for sustain behavior)
-    bool gateHigh[NUM_TRACKS] = {false, false, false};
-    float lastClockTime[NUM_TRACKS] = {0.f, 0.f, 0.f};
-
-    // Previous param values for change detection
-    float prevPitchParams[NUM_TRACKS * NUM_STEPS] = {0.f};
-
-    // Gate button state tracking (for toggle behavior)
-    bool gateButtonStates[NUM_TRACKS * NUM_STEPS] = {false};
-
-    // Clock period tracking for pulse width calculation
+    // Clock period tracking
     float lastClockRiseTime = 0.f;
-    float clockPeriod = 0.5f;  // Default to 120 BPM (0.5 sec period)
+    float clockPeriod = 0.5f;
     float elapsedTime = 0.f;
 
-    // Per-track swing state
+    // Swing state
     float swingAccumulator[NUM_TRACKS] = {0.f, 0.f, 0.f};
-    int stepParity[NUM_TRACKS] = {0, 0, 0};  // Tracks odd/even for swing
-    bool pendingSwingGate[NUM_TRACKS] = {false, false, false};  // Gate waiting for swing delay
-    int pendingSwingStep[NUM_TRACKS] = {0, 0, 0};  // Which step is pending (for pitch lookup)
-    float outputPitch[NUM_TRACKS] = {0.f, 0.f, 0.f};  // Current pitch being output (synced with gate)
-    int outputStep[NUM_TRACKS] = {0, 0, 0};  // Current step for LED display (synced with gate)
+    int stepParity[NUM_TRACKS] = {0, 0, 0};
+    bool pendingSwingGate[NUM_TRACKS] = {false, false, false};
+    int pendingSwingStep[NUM_TRACKS] = {0, 0, 0};
+    float outputPitch[NUM_TRACKS] = {0.f, 0.f, 0.f};
+    int outputStep[NUM_TRACKS] = {0, 0, 0};
 
-    // Per-track clock multiplication state
-    float trackClockPhase[NUM_TRACKS] = {0.f, 0.f, 0.f};  // Phase within current clock period for multiplication
-    int trackSubStep[NUM_TRACKS] = {0, 0, 0};  // Which sub-step we're on (for 2x, 4x, 8x)
+    // Clock multiplication state
+    float trackClockPhase[NUM_TRACKS] = {0.f, 0.f, 0.f};
+    int trackSubStep[NUM_TRACKS] = {0, 0, 0};
 
-    // Debug: track actual values being used
-    float debugBpm = 120.f;
-    float debugFreq = 2.f;
-    bool debugUsingInternal = true;
-    int debugClockCount = 0;
+    // Gate button state tracking
+    bool gateButtonStates[NUM_TRACKS * NUM_STEPS] = {false};
+
+    // Previous encoder values for change detection
+    float prevEncoderValues[NUM_STEPS] = {0.f};
 
     Sequencer() {
         config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 
-        // Configure internal clock controls
+        // Clock controls
         configParam(BPM_PARAM, 30.f, 300.f, 120.f, "BPM");
         configButton(RUN_PARAM, "Run/Stop");
         configButton(RST_PARAM, "Reset");
 
-        // Configure track controls
-        // Steps: 1-8
-        configParam(TRACK1_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 1 Steps");
-        // Division: ÷4, ÷2, 1x, 2x, 4x, 8x (indices 0-5, default 2 = 1x)
-        configSwitch(TRACK1_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 1 Division", {"1/1", "1/2", "1/4", "1/8", "1/8T", "1/16", "1/16T", "1/32"});
-        configSwitch(TRACK1_DIR_PARAM, 0.f, 3.f, 0.f, "Track 1 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
+        // Track select buttons
+        for (int t = 0; t < NUM_TRACKS; t++) {
+            configButton(TRACK_SELECT_PARAMS + t, string::f("Select Track %d", t + 1));
+        }
 
-        configParam(TRACK2_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 2 Steps");
-        configSwitch(TRACK2_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 2 Division", {"1/1", "1/2", "1/4", "1/8", "1/8T", "1/16", "1/16T", "1/32"});
-        configSwitch(TRACK2_DIR_PARAM, 0.f, 3.f, 0.f, "Track 2 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
+        // Track controls (shared, apply to selected track)
+        configParam(STEPS_PARAM, 1.f, 8.f, 8.f, "Steps");
+        configSwitch(DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Division",
+            {"1/1", "1/2", "1/4", "1/8", "1/8T", "1/16", "1/16T", "1/32"});
+        configSwitch(DIR_PARAM, 0.f, 3.f, 0.f, "Direction",
+            {"Forward", "Reverse", "Pendulum", "Random"});
 
-        configParam(TRACK3_STEPS_PARAM, 1.f, 8.f, 8.f, "Track 3 Steps");
-        configSwitch(TRACK3_DIV_PARAM, 0.f, NUM_DIVISIONS - 1, 2.f, "Track 3 Division", {"1/1", "1/2", "1/4", "1/8", "1/8T", "1/16", "1/16T", "1/32"});
-        configSwitch(TRACK3_DIR_PARAM, 0.f, 3.f, 0.f, "Track 3 Direction", {"Forward", "Reverse", "Pendulum", "Random"});
+        // Pitch encoders (8 shared)
+        for (int s = 0; s < NUM_STEPS; s++) {
+            configParam(PITCH_PARAMS + s, 0.f, 5.f, 0.f, string::f("Step %d Pitch", s + 1), " V");
+        }
 
-        // Configure pitch encoders (0-5V range, semitone steps would be 1/12V per step)
+        // Gate buttons (24 total: 8 steps × 3 tracks)
         for (int t = 0; t < NUM_TRACKS; t++) {
             for (int s = 0; s < NUM_STEPS; s++) {
-                int idx = t * NUM_STEPS + s;
-                configParam(PITCH_PARAMS + idx, 0.f, 5.f, 0.f,
-                    string::f("Track %d Step %d Pitch", t + 1, s + 1), " V");
+                configButton(GATE_PARAMS + t * NUM_STEPS + s,
+                    string::f("Track %d Step %d Gate", t + 1, s + 1));
             }
         }
 
-        // Configure gate buttons
-        for (int t = 0; t < NUM_TRACKS; t++) {
-            for (int s = 0; s < NUM_STEPS; s++) {
-                int idx = t * NUM_STEPS + s;
-                configButton(GATE_PARAMS + idx, string::f("Track %d Step %d Gate", t + 1, s + 1));
-            }
-        }
-
-        // Configure scene buttons
+        // Scene buttons
         for (int s = 0; s < NUM_SCENES; s++) {
             configButton(SCENE_PARAMS + s, string::f("Scene %d", s + 1));
         }
 
-        // Configure modifier buttons
+        // Modifier buttons
         configButton(COPY_PARAM, "Copy Scene");
         configButton(DELETE_PARAM, "Delete Scene");
 
-        // Configure groove controls
+        // Groove controls
         configParam(SWING_PARAM, 0.f, 100.f, 0.f, "Swing", "%");
         configParam(PW_PARAM, 10.f, 90.f, 50.f, "Pulse Width", "%");
 
-        // Configure inputs
+        // Inputs
         configInput(CLOCK_INPUT, "Clock");
         configInput(RESET_INPUT, "Reset");
         configInput(SCENE_CV_INPUT, "Scene CV");
 
-        // Configure outputs
+        // Outputs
         configOutput(CLOCK_OUTPUT, "Clock");
         configOutput(RESET_OUTPUT, "Reset");
-        configOutput(TRACK1_PITCH_OUTPUT, "Track 1 Pitch CV");
+        configOutput(TRACK1_PITCH_OUTPUT, "Track 1 Pitch");
         configOutput(TRACK1_GATE_OUTPUT, "Track 1 Gate");
-        configOutput(TRACK2_PITCH_OUTPUT, "Track 2 Pitch CV");
+        configOutput(TRACK2_PITCH_OUTPUT, "Track 2 Pitch");
         configOutput(TRACK2_GATE_OUTPUT, "Track 2 Gate");
-        configOutput(TRACK3_PITCH_OUTPUT, "Track 3 Pitch CV");
+        configOutput(TRACK3_PITCH_OUTPUT, "Track 3 Pitch");
         configOutput(TRACK3_GATE_OUTPUT, "Track 3 Gate");
         configOutput(SCENE_CV_OUTPUT, "Scene CV");
 
-        // Initialize first scene as active
+        // Initialize first scene
         scenes[0].isEmpty = false;
     }
 
@@ -257,6 +228,7 @@ struct Sequencer : Module {
         }
         scenes[0].isEmpty = false;
         currentScene = 0;
+        selectedTrack = 0;
         copySourceScene = -1;
         deleteMode = false;
         for (int t = 0; t < NUM_TRACKS; t++) {
@@ -272,11 +244,36 @@ struct Sequencer : Module {
             trackClockPhase[t] = 0.f;
             trackSubStep[t] = 0;
         }
-        // Reset internal clock state
         isRunning = true;
         internalClockPhase = 0.f;
         elapsedTime = 0.f;
         lastClockRiseTime = 0.f;
+        loadTrackToEncoders();
+    }
+
+    void loadTrackToEncoders() {
+        // Load selected track's pitches into encoder params
+        SceneData& scene = scenes[currentScene];
+        for (int s = 0; s < NUM_STEPS; s++) {
+            params[PITCH_PARAMS + s].setValue(scene.tracks[selectedTrack].pitches[s]);
+            prevEncoderValues[s] = scene.tracks[selectedTrack].pitches[s];
+        }
+        // Load track controls
+        params[STEPS_PARAM].setValue(scene.tracks[selectedTrack].stepCount);
+        params[DIV_PARAM].setValue(scene.tracks[selectedTrack].divisionIndex);
+        params[DIR_PARAM].setValue((float)scene.tracks[selectedTrack].direction);
+    }
+
+    void saveEncodersToTrack() {
+        // Save encoder values to selected track's pitches
+        SceneData& scene = scenes[currentScene];
+        for (int s = 0; s < NUM_STEPS; s++) {
+            scene.tracks[selectedTrack].pitches[s] = params[PITCH_PARAMS + s].getValue();
+        }
+        // Save track controls
+        scene.tracks[selectedTrack].stepCount = (int)params[STEPS_PARAM].getValue();
+        scene.tracks[selectedTrack].divisionIndex = (int)params[DIV_PARAM].getValue();
+        scene.tracks[selectedTrack].direction = (Direction)(int)params[DIR_PARAM].getValue();
     }
 
     void advanceStep(int track) {
@@ -310,39 +307,44 @@ struct Sequencer : Module {
     void process(const ProcessArgs& args) override {
         SceneData& scene = scenes[currentScene];
 
-        // Read track control knobs and update scene data
-        int stepsParams[NUM_TRACKS] = {TRACK1_STEPS_PARAM, TRACK2_STEPS_PARAM, TRACK3_STEPS_PARAM};
-        int divParams[NUM_TRACKS] = {TRACK1_DIV_PARAM, TRACK2_DIV_PARAM, TRACK3_DIV_PARAM};
-        int dirParams[NUM_TRACKS] = {TRACK1_DIR_PARAM, TRACK2_DIR_PARAM, TRACK3_DIR_PARAM};
-
+        // Handle track select buttons (radio-style)
         for (int t = 0; t < NUM_TRACKS; t++) {
-            scene.tracks[t].stepCount = (int)params[stepsParams[t]].getValue();
-            scene.tracks[t].divisionIndex = (int)params[divParams[t]].getValue();
-            scene.tracks[t].direction = (Direction)(int)params[dirParams[t]].getValue();
-        }
-
-        // Read pitch encoders and update scene data
-        for (int t = 0; t < NUM_TRACKS; t++) {
-            for (int s = 0; s < NUM_STEPS; s++) {
-                int idx = t * NUM_STEPS + s;
-                scene.tracks[t].pitches[s] = params[PITCH_PARAMS + idx].getValue();
+            if (trackSelectTriggers[t].process(params[TRACK_SELECT_PARAMS + t].getValue() > 0.f)) {
+                if (t != selectedTrack) {
+                    saveEncodersToTrack();  // Save current track
+                    selectedTrack = t;
+                    loadTrackToEncoders();  // Load new track
+                }
             }
         }
 
-        // Handle gate button toggles (proper toggle behavior)
+        // Check for encoder changes and save to current track
+        for (int s = 0; s < NUM_STEPS; s++) {
+            float val = params[PITCH_PARAMS + s].getValue();
+            if (val != prevEncoderValues[s]) {
+                scene.tracks[selectedTrack].pitches[s] = val;
+                prevEncoderValues[s] = val;
+            }
+        }
+
+        // Save track control changes to current track
+        scene.tracks[selectedTrack].stepCount = (int)params[STEPS_PARAM].getValue();
+        scene.tracks[selectedTrack].divisionIndex = (int)params[DIV_PARAM].getValue();
+        scene.tracks[selectedTrack].direction = (Direction)(int)params[DIR_PARAM].getValue();
+
+        // Handle gate button toggles
         for (int t = 0; t < NUM_TRACKS; t++) {
             for (int s = 0; s < NUM_STEPS; s++) {
                 int idx = t * NUM_STEPS + s;
                 bool pressed = params[GATE_PARAMS + idx].getValue() > 0.f;
                 if (pressed && !gateButtonStates[idx]) {
-                    // Button just pressed - toggle gate state
                     scene.tracks[t].gates[s] = !scene.tracks[t].gates[s];
                 }
                 gateButtonStates[idx] = pressed;
             }
         }
 
-        // Handle reset (from input or button)
+        // Handle reset
         bool resetFromInput = resetTrigger.process(inputs[RESET_INPUT].getVoltage());
         bool resetFromButton = rstButtonTrigger.process(params[RST_PARAM].getValue() > 0.f);
         if (resetFromInput || resetFromButton) {
@@ -352,70 +354,63 @@ struct Sequencer : Module {
                 clockPhase[t] = 0.f;
             }
             internalClockPhase = 0.f;
-            resetOutputPulse.trigger(0.001f);  // 1ms reset pulse
+            resetOutputPulse.trigger(0.001f);
         }
-
-        // Output reset pulse
         outputs[RESET_OUTPUT].setVoltage(resetOutputPulse.process(args.sampleTime) ? 10.f : 0.f);
 
-        // Handle scene CV input (0-7V maps to scenes 1-8)
+        // Handle scene CV input
         if (inputs[SCENE_CV_INPUT].isConnected()) {
             float sceneCV = inputs[SCENE_CV_INPUT].getVoltage();
             int newScene = clamp((int)sceneCV, 0, NUM_SCENES - 1);
             if (newScene != currentScene && !scenes[newScene].isEmpty) {
+                saveEncodersToTrack();
                 currentScene = newScene;
-                loadSceneToParams();
+                loadTrackToEncoders();
             }
         }
 
-        // Handle scene button presses
+        // Handle scene buttons
         for (int s = 0; s < NUM_SCENES; s++) {
             if (sceneTriggers[s].process(params[SCENE_PARAMS + s].getValue() > 0.f)) {
                 if (copySourceScene >= 0) {
-                    // Copy mode active - paste to this scene
                     scenes[s] = scenes[copySourceScene];
                     scenes[s].isEmpty = false;
                     copySourceScene = -1;
+                    saveEncodersToTrack();
                     currentScene = s;
-                    loadSceneToParams();
+                    loadTrackToEncoders();
                 } else if (deleteMode && s != 0) {
-                    // Delete mode active (can't delete scene 1)
                     scenes[s] = SceneData();
-                    deleteMode = false;  // Exit delete mode after deleting
+                    deleteMode = false;
                     if (currentScene == s) {
                         currentScene = 0;
-                        loadSceneToParams();
+                        loadTrackToEncoders();
                     }
                 } else {
-                    // Normal scene selection - initialize empty scenes with current data
                     if (scenes[s].isEmpty) {
-                        // Copy current scene to new scene
                         scenes[s] = scenes[currentScene];
                         scenes[s].isEmpty = false;
                     }
+                    saveEncodersToTrack();
                     currentScene = s;
-                    loadSceneToParams();
+                    loadTrackToEncoders();
                 }
             }
         }
 
-        // Handle copy button (toggle)
+        // Copy button
         if (copyTrigger.process(params[COPY_PARAM].getValue() > 0.f)) {
-            deleteMode = false;  // Cancel delete mode if active
-            if (copySourceScene < 0) {
-                copySourceScene = currentScene;
-            } else {
-                copySourceScene = -1;  // Cancel copy
-            }
+            deleteMode = false;
+            copySourceScene = (copySourceScene < 0) ? currentScene : -1;
         }
 
-        // Handle delete button (toggle)
+        // Delete button
         if (deleteTrigger.process(params[DELETE_PARAM].getValue() > 0.f)) {
-            copySourceScene = -1;  // Cancel copy mode if active
+            copySourceScene = -1;
             deleteMode = !deleteMode;
         }
 
-        // Handle run/stop button (toggle)
+        // Run/stop button
         if (runTrigger.process(params[RUN_PARAM].getValue() > 0.f)) {
             isRunning = !isRunning;
         }
@@ -423,69 +418,51 @@ struct Sequencer : Module {
         // Track elapsed time
         elapsedTime += args.sampleTime;
 
-        // Read BPM at the start - this value controls internal clock speed
+        // Get groove params
+        float swingAmount = params[SWING_PARAM].getValue() / 100.f;
+        float pulseWidth = params[PW_PARAM].getValue() / 100.f;
+
+        // Clock generation
         float bpm = params[BPM_PARAM].getValue();
-
-        // Read groove params
-        float swingAmount = params[SWING_PARAM].getValue() / 100.f;  // 0-1
-        float pulseWidth = params[PW_PARAM].getValue() / 100.f;      // 0.1-0.9
-
-        // Determine clock source and generate clock
         bool useInternalClock = !inputs[CLOCK_INPUT].isConnected();
         bool clockRising = false;
 
-        // Always update clock period based on BPM (used for pulse width)
         float clockFreq = bpm / 60.f;
         clockPeriod = 1.f / clockFreq;
 
-        // Debug: store values for display
-        debugBpm = bpm;
-        debugFreq = clockFreq;
-        debugUsingInternal = useInternalClock;
-
         if (isRunning) {
             if (useInternalClock) {
-                // Generate internal clock using BPM
                 internalClockPhase += clockFreq * args.sampleTime;
                 if (internalClockPhase >= 1.f) {
                     internalClockPhase -= 1.f;
                     clockRising = true;
-                    clockOutputPulse.trigger(0.001f);  // 1ms pulse
-                    debugClockCount++;  // Debug: count clock pulses
+                    clockOutputPulse.trigger(0.001f);
                 }
             } else {
-                // Use external clock
                 clockRising = clockTrigger.process(inputs[CLOCK_INPUT].getVoltage());
                 if (clockRising) {
-                    // Calculate clock period from external clock (overrides BPM-based period)
                     float timeSinceLastClock = elapsedTime - lastClockRiseTime;
                     if (timeSinceLastClock > 0.01f && timeSinceLastClock < 4.f) {
                         clockPeriod = timeSinceLastClock;
                     }
                     lastClockRiseTime = elapsedTime;
-                    clockOutputPulse.trigger(0.001f);  // Pass through clock
-                    debugClockCount++;  // Debug: count clock pulses
+                    clockOutputPulse.trigger(0.001f);
                 }
             }
         }
-
-        // Output clock
         outputs[CLOCK_OUTPUT].setVoltage(clockOutputPulse.process(args.sampleTime) ? 10.f : 0.f);
 
-        // Process clock for each track
+        // Process each track
         for (int t = 0; t < NUM_TRACKS; t++) {
             TrackData& trackData = scene.tracks[t];
             float division = DIVISIONS[trackData.divisionIndex];
             bool shouldAdvance = false;
 
-            // Calculate step duration and gate duration based on division
-            // Step duration = clockPeriod * division (works for both division and multiplication)
             float stepDuration = clockPeriod * division;
             float gateDuration = stepDuration * pulseWidth;
             gateDuration = clamp(gateDuration, 0.001f, stepDuration * 0.95f);
 
             if (division >= 1.f) {
-                // DIVISION MODE (÷4, ÷2, 1x): accumulate clocks, advance after N clocks
                 if (clockRising) {
                     clockPhase[t] += 1.f / division;
                     if (clockPhase[t] >= 1.f) {
@@ -494,28 +471,18 @@ struct Sequencer : Module {
                     }
                 }
             } else {
-                // MULTIPLICATION MODE (2x, 4x, 8x): generate sub-steps between clocks
-                // division < 1 means we need multiple steps per clock
-                // e.g., division = 0.5 means 2 steps per clock (2x)
-                int stepsPerClock = (int)(1.f / division);  // 2, 4, or 8
-
+                int stepsPerClock = (int)(1.f / division);
                 if (clockRising) {
-                    // Reset sub-step counter and phase on each clock
                     trackSubStep[t] = 0;
                     trackClockPhase[t] = 0.f;
-                    shouldAdvance = true;  // First step happens on the clock
+                    shouldAdvance = true;
                 } else if (isRunning && clockPeriod > 0.f) {
-                    // Generate intermediate steps between clocks
                     trackClockPhase[t] += args.sampleTime;
                     float stepInterval = clockPeriod / stepsPerClock;
                     int expectedSubStep = (int)(trackClockPhase[t] / stepInterval);
-
-                    // Clamp to avoid advancing beyond what we should before next clock
                     if (expectedSubStep >= stepsPerClock) {
                         expectedSubStep = stepsPerClock - 1;
                     }
-
-                    // If we've reached a new sub-step, advance
                     if (expectedSubStep > trackSubStep[t]) {
                         trackSubStep[t] = expectedSubStep;
                         shouldAdvance = true;
@@ -523,34 +490,26 @@ struct Sequencer : Module {
                 }
             }
 
-            // Advance step and trigger gate if needed
             if (shouldAdvance) {
                 advanceStep(t);
                 stepParity[t] = (stepParity[t] + 1) % 2;
 
-                // Apply swing: delay off-beat steps (steps 2, 4, 6, 8 when stepParity == 1)
                 float swingDelay = 0.f;
                 if (stepParity[t] == 1 && swingAmount > 0.f) {
-                    // Swing delay is a fraction of the step duration
-                    // At 100% swing, delay is 50% of the beat (maximum shuffle)
                     swingDelay = clockPeriod * (division >= 1.f ? division : 1.f) * swingAmount * 0.5f;
                 }
 
-                // Trigger gate pulse if this step has gate enabled
                 if (trackData.gates[currentStep[t]]) {
                     if (swingDelay > 0.001f) {
-                        // Swing: delay gate, pitch, AND LED update
                         swingAccumulator[t] = swingDelay;
                         pendingSwingGate[t] = true;
-                        pendingSwingStep[t] = currentStep[t];  // Remember which step to play
+                        pendingSwingStep[t] = currentStep[t];
                     } else {
-                        // No swing: fire immediately, update pitch and LED now
                         gatePulse[t].trigger(gateDuration);
                         outputPitch[t] = trackData.pitches[currentStep[t]];
                         outputStep[t] = currentStep[t];
                     }
                 } else {
-                    // Gate disabled but still update pitch/LED for non-swung steps
                     if (swingDelay <= 0.001f) {
                         outputPitch[t] = trackData.pitches[currentStep[t]];
                         outputStep[t] = currentStep[t];
@@ -558,135 +517,71 @@ struct Sequencer : Module {
                 }
             }
 
-            // Process swing delay (outside shouldAdvance block - runs every sample)
             if (pendingSwingGate[t] && swingAccumulator[t] > 0.f) {
                 swingAccumulator[t] -= args.sampleTime;
                 if (swingAccumulator[t] <= 0.f) {
                     swingAccumulator[t] = 0.f;
-                    // Fire the delayed gate AND update pitch/LED now
                     gatePulse[t].trigger(gateDuration);
                     outputPitch[t] = scene.tracks[t].pitches[pendingSwingStep[t]];
                     outputStep[t] = pendingSwingStep[t];
                     pendingSwingGate[t] = false;
                 }
             }
-
-            // If not running, just track gate state
-            if (!isRunning) {
-                gateHigh[t] = trackData.gates[currentStep[t]];
-            }
         }
 
-        // Update gate pulse generators and outputs
+        // Outputs
         int pitchOutputs[NUM_TRACKS] = {TRACK1_PITCH_OUTPUT, TRACK2_PITCH_OUTPUT, TRACK3_PITCH_OUTPUT};
         int gateOutputs[NUM_TRACKS] = {TRACK1_GATE_OUTPUT, TRACK2_GATE_OUTPUT, TRACK3_GATE_OUTPUT};
 
         for (int t = 0; t < NUM_TRACKS; t++) {
-            TrackData& trackData = scene.tracks[t];
-
-            // Output pitch CV (synced with gate - delayed by swing if active)
             outputs[pitchOutputs[t]].setVoltage(outputPitch[t]);
-
-            // Output gate (use pulse generator if running, otherwise static)
-            bool gateOn;
-            if (isRunning) {
-                gateOn = gatePulse[t].process(args.sampleTime);
-            } else {
-                gateOn = trackData.gates[currentStep[t]];
-            }
+            bool gateOn = isRunning ? gatePulse[t].process(args.sampleTime) : scene.tracks[t].gates[currentStep[t]];
             outputs[gateOutputs[t]].setVoltage(gateOn ? 10.f : 0.f);
         }
-
-        // Output scene CV (0-7V)
         outputs[SCENE_CV_OUTPUT].setVoltage((float)currentScene);
 
-        // Update gate LEDs
+        // Update LEDs
+        // Track select LEDs
         for (int t = 0; t < NUM_TRACKS; t++) {
-            // Check if gate output is currently high (respects pulse width)
-            // Note: gatePulse[t].process() was already called above, so check remaining
-            bool gateOutputHigh = gatePulse[t].remaining > 0.f;
+            lights[TRACK_SELECT_LIGHTS + t].setBrightness(t == selectedTrack ? 1.f : 0.2f);
+        }
 
+        // Gate and step LEDs
+        for (int t = 0; t < NUM_TRACKS; t++) {
+            bool gateOutputHigh = gatePulse[t].remaining > 0.f;
             for (int s = 0; s < NUM_STEPS; s++) {
                 int idx = t * NUM_STEPS + s;
-                // Gate on/off indicator (yellow) - shows programmed gate state
                 lights[GATE_LIGHTS + idx].setBrightness(scene.tracks[t].gates[s] ? 1.f : 0.1f);
-
-                // Current step indicator (green) - uses outputStep which syncs with gate/pitch
-                // This shows swing (LED moves when note plays) and pulse width (brightness)
                 if (outputStep[t] == s) {
-                    if (isRunning) {
-                        // Show gate output state: bright when gate high, dim when gate low
-                        lights[STEP_LIGHTS + idx].setBrightness(gateOutputHigh ? 1.f : 0.3f);
-                    } else {
-                        // Not running - just show position
-                        lights[STEP_LIGHTS + idx].setBrightness(1.f);
-                    }
+                    lights[STEP_LIGHTS + idx].setBrightness(isRunning ? (gateOutputHigh ? 1.f : 0.3f) : 1.f);
                 } else {
                     lights[STEP_LIGHTS + idx].setBrightness(0.f);
                 }
             }
         }
 
-        // Update scene LEDs (RGB: red=empty, green=current, blue=has data)
+        // Scene LEDs
         for (int s = 0; s < NUM_SCENES; s++) {
             bool isCurrent = (s == currentScene);
             bool isEmpty = scenes[s].isEmpty;
             bool isCopySource = (s == copySourceScene);
-
-            // Red: copy source indicator
             lights[SCENE_LIGHTS + s * 3 + 0].setBrightness(isCopySource ? 1.f : 0.f);
-            // Green: current scene
             lights[SCENE_LIGHTS + s * 3 + 1].setBrightness(isCurrent ? 1.f : 0.f);
-            // Blue: has data
             lights[SCENE_LIGHTS + s * 3 + 2].setBrightness(!isEmpty ? 0.5f : 0.1f);
         }
 
-        // Copy/Delete indicator lights
         lights[COPY_LIGHT].setBrightness(copySourceScene >= 0 ? 1.f : 0.f);
         lights[DELETE_LIGHT].setBrightness(deleteMode ? 1.f : 0.f);
-
-        // Run indicator light
         lights[RUN_LIGHT].setBrightness(isRunning ? 1.f : 0.f);
-
-        // Reset indicator light (brief flash when reset occurs)
         lights[RST_LIGHT].setBrightness(resetOutputPulse.remaining > 0.f ? 1.f : 0.f);
-    }
-
-    void loadSceneToParams() {
-        SceneData& scene = scenes[currentScene];
-
-        // Load track controls
-        params[TRACK1_STEPS_PARAM].setValue(scene.tracks[0].stepCount);
-        params[TRACK1_DIV_PARAM].setValue(scene.tracks[0].divisionIndex);
-        params[TRACK1_DIR_PARAM].setValue((float)scene.tracks[0].direction);
-
-        params[TRACK2_STEPS_PARAM].setValue(scene.tracks[1].stepCount);
-        params[TRACK2_DIV_PARAM].setValue(scene.tracks[1].divisionIndex);
-        params[TRACK2_DIR_PARAM].setValue((float)scene.tracks[1].direction);
-
-        params[TRACK3_STEPS_PARAM].setValue(scene.tracks[2].stepCount);
-        params[TRACK3_DIV_PARAM].setValue(scene.tracks[2].divisionIndex);
-        params[TRACK3_DIR_PARAM].setValue((float)scene.tracks[2].direction);
-
-        // Load pitch values
-        for (int t = 0; t < NUM_TRACKS; t++) {
-            for (int s = 0; s < NUM_STEPS; s++) {
-                int idx = t * NUM_STEPS + s;
-                params[PITCH_PARAMS + idx].setValue(scene.tracks[t].pitches[s]);
-            }
-        }
     }
 
     json_t* dataToJson() override {
         json_t* rootJ = json_object();
-
-        // Save current scene
         json_object_set_new(rootJ, "currentScene", json_integer(currentScene));
-
-        // Save running state
+        json_object_set_new(rootJ, "selectedTrack", json_integer(selectedTrack));
         json_object_set_new(rootJ, "isRunning", json_boolean(isRunning));
 
-        // Save all scenes
         json_t* scenesJ = json_array();
         for (int i = 0; i < NUM_SCENES; i++) {
             json_t* sceneJ = json_object();
@@ -707,73 +602,56 @@ struct Sequencer : Module {
                 }
                 json_object_set_new(trackJ, "pitches", pitchesJ);
                 json_object_set_new(trackJ, "gates", gatesJ);
-
                 json_array_append_new(tracksJ, trackJ);
             }
             json_object_set_new(sceneJ, "tracks", tracksJ);
             json_array_append_new(scenesJ, sceneJ);
         }
         json_object_set_new(rootJ, "scenes", scenesJ);
-
         return rootJ;
     }
 
     void dataFromJson(json_t* rootJ) override {
-        // Load current scene
         json_t* currentSceneJ = json_object_get(rootJ, "currentScene");
-        if (currentSceneJ) {
-            currentScene = json_integer_value(currentSceneJ);
-        }
+        if (currentSceneJ) currentScene = json_integer_value(currentSceneJ);
 
-        // Load running state
+        json_t* selectedTrackJ = json_object_get(rootJ, "selectedTrack");
+        if (selectedTrackJ) selectedTrack = json_integer_value(selectedTrackJ);
+
         json_t* isRunningJ = json_object_get(rootJ, "isRunning");
-        if (isRunningJ) {
-            isRunning = json_boolean_value(isRunningJ);
-        }
+        if (isRunningJ) isRunning = json_boolean_value(isRunningJ);
 
-        // Load all scenes
         json_t* scenesJ = json_object_get(rootJ, "scenes");
         if (scenesJ) {
             for (int i = 0; i < NUM_SCENES && i < (int)json_array_size(scenesJ); i++) {
                 json_t* sceneJ = json_array_get(scenesJ, i);
-
                 json_t* isEmptyJ = json_object_get(sceneJ, "isEmpty");
-                if (isEmptyJ) {
-                    scenes[i].isEmpty = json_boolean_value(isEmptyJ);
-                }
+                if (isEmptyJ) scenes[i].isEmpty = json_boolean_value(isEmptyJ);
 
                 json_t* tracksJ = json_object_get(sceneJ, "tracks");
                 if (tracksJ) {
                     for (int t = 0; t < NUM_TRACKS && t < (int)json_array_size(tracksJ); t++) {
                         json_t* trackJ = json_array_get(tracksJ, t);
-
                         json_t* stepCountJ = json_object_get(trackJ, "stepCount");
                         if (stepCountJ) scenes[i].tracks[t].stepCount = json_integer_value(stepCountJ);
-
                         json_t* divisionIndexJ = json_object_get(trackJ, "divisionIndex");
                         if (divisionIndexJ) scenes[i].tracks[t].divisionIndex = json_integer_value(divisionIndexJ);
-
                         json_t* directionJ = json_object_get(trackJ, "direction");
                         if (directionJ) scenes[i].tracks[t].direction = (Direction)json_integer_value(directionJ);
 
                         json_t* pitchesJ = json_object_get(trackJ, "pitches");
                         json_t* gatesJ = json_object_get(trackJ, "gates");
-
                         for (int s = 0; s < NUM_STEPS; s++) {
-                            if (pitchesJ && s < (int)json_array_size(pitchesJ)) {
+                            if (pitchesJ && s < (int)json_array_size(pitchesJ))
                                 scenes[i].tracks[t].pitches[s] = json_real_value(json_array_get(pitchesJ, s));
-                            }
-                            if (gatesJ && s < (int)json_array_size(gatesJ)) {
+                            if (gatesJ && s < (int)json_array_size(gatesJ))
                                 scenes[i].tracks[t].gates[s] = json_boolean_value(json_array_get(gatesJ, s));
-                            }
                         }
                     }
                 }
             }
         }
-
-        // Load scene data to params
-        loadSceneToParams();
+        loadTrackToEncoders();
     }
 };
 
@@ -782,41 +660,26 @@ struct BpmDisplay : Widget {
     Sequencer* module;
 
     void draw(const DrawArgs& args) override {
-        // Draw background
         nvgBeginPath(args.vg);
         nvgRoundedRect(args.vg, 0, 0, box.size.x, box.size.y, 2.0);
         nvgFillColor(args.vg, nvgRGB(0, 0, 0));
         nvgFill(args.vg);
 
         if (module) {
-            float displayBpm;
-            std::string modeText;
-            NVGcolor modeColor;
-
-            if (module->debugUsingInternal) {
-                // Internal clock - show BPM from knob
-                displayBpm = module->params[Sequencer::BPM_PARAM].getValue();
-                modeText = "INT";
-                modeColor = nvgRGB(0, 255, 100);
-            } else {
-                // External clock - calculate BPM from clock period
-                displayBpm = 60.f / module->clockPeriod;
-                modeText = "EXT";
-                modeColor = nvgRGB(100, 150, 255);
+            float bpm = module->params[Sequencer::BPM_PARAM].getValue();
+            bool isInternal = !module->inputs[Sequencer::CLOCK_INPUT].isConnected();
+            if (!isInternal && module->clockPeriod > 0.f) {
+                bpm = 60.f / module->clockPeriod;
             }
 
-            // Main BPM display (large)
-            std::string bpmText = string::f("%.0f", displayBpm);
             nvgFontSize(args.vg, 14);
-            nvgFillColor(args.vg, nvgRGB(255, 200, 50));  // Amber color
+            nvgFillColor(args.vg, nvgRGB(255, 200, 50));
             nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-            nvgText(args.vg, box.size.x / 2, box.size.y / 2 - 4, bpmText.c_str(), NULL);
+            nvgText(args.vg, box.size.x / 2, box.size.y / 2 - 3, string::f("%.0f", bpm).c_str(), NULL);
 
-            // Mode indicator (small, at bottom)
             nvgFontSize(args.vg, 8);
-            nvgFillColor(args.vg, modeColor);
-            nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_BOTTOM);
-            nvgText(args.vg, box.size.x / 2, box.size.y - 1, modeText.c_str(), NULL);
+            nvgFillColor(args.vg, isInternal ? nvgRGB(0, 255, 100) : nvgRGB(100, 150, 255));
+            nvgText(args.vg, box.size.x / 2, box.size.y / 2 + 8, isInternal ? "INT" : "EXT", NULL);
         } else {
             nvgFontSize(args.vg, 14);
             nvgFillColor(args.vg, nvgRGB(255, 200, 50));
@@ -831,148 +694,116 @@ struct SequencerWidget : ModuleWidget {
         setModule(module);
         setPanel(createPanel(asset::plugin(pluginInstance, "res/Sequencer.svg")));
 
-        // Add screws (28 HP module)
+        // Screws (20 HP)
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-        // ========== CLOCK COLUMN (left side, x=10 center) ==========
-        // BPM display (x=3-17, y=20-28)
+        // ========== LEFT COLUMN: CLOCK (x=10) ==========
+        // Compact layout with 10mm spacing
+        float leftX = 10;
+
+        // BPM display (y=16-26)
         BpmDisplay* bpmDisplay = new BpmDisplay();
-        bpmDisplay->box.pos = mm2px(Vec(3, 20));
-        bpmDisplay->box.size = mm2px(Vec(14, 8));
+        bpmDisplay->box.pos = mm2px(Vec(3, 16));
+        bpmDisplay->box.size = mm2px(Vec(14, 10));
         bpmDisplay->module = module;
         addChild(bpmDisplay);
 
-        // BPM knob (cx=10, cy=35)
-        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(10, 35)), module, Sequencer::BPM_PARAM));
+        // BPM knob (y=32)
+        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(leftX, 32)), module, Sequencer::BPM_PARAM));
 
-        // RUN button with LED (cx=10, cy=50)
-        addChild(createLightCentered<MediumLight<GreenLight>>(mm2px(Vec(10, 50)), module, Sequencer::RUN_LIGHT));
-        addParam(createParamCentered<LEDButton>(mm2px(Vec(10, 50)), module, Sequencer::RUN_PARAM));
+        // RUN button + LED (y=42)
+        addChild(createLightCentered<MediumLight<GreenLight>>(mm2px(Vec(leftX, 42)), module, Sequencer::RUN_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(leftX, 42)), module, Sequencer::RUN_PARAM));
 
-        // CLK IN jack (cx=10, cy=66)
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(10, 66)), module, Sequencer::CLOCK_INPUT));
+        // CLK IN (y=52)
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(leftX, 52)), module, Sequencer::CLOCK_INPUT));
 
-        // RST button with LED (cx=10, cy=84)
-        addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(10, 84)), module, Sequencer::RST_LIGHT));
-        addParam(createParamCentered<LEDButton>(mm2px(Vec(10, 84)), module, Sequencer::RST_PARAM));
+        // RST button + LED (y=62)
+        addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(leftX, 62)), module, Sequencer::RST_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(leftX, 62)), module, Sequencer::RST_PARAM));
 
-        // RST IN jack (cx=10, cy=100)
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(10, 100)), module, Sequencer::RESET_INPUT));
+        // RST IN (y=72)
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(leftX, 72)), module, Sequencer::RESET_INPUT));
 
-        // ========== TRACK 1 (y=11-38) ==========
-        // Vertical track controls at x=26
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 22)), module, Sequencer::TRACK1_STEPS_PARAM));  // STP
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 28)), module, Sequencer::TRACK1_DIV_PARAM));    // DIV
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 34)), module, Sequencer::TRACK1_DIR_PARAM));    // DIR
+        // SCV IN (y=82)
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(leftX, 82)), module, Sequencer::SCENE_CV_INPUT));
 
-        // Pitch knobs at y=22, spacing 9mm starting at x=42
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x, 22)), module, Sequencer::PITCH_PARAMS + s));
+        // ========== TOP ROW: TRACK SELECT + CONTROLS (y=14) ==========
+        // Track select buttons: T1, T2, T3 (x=28, 38, 48)
+        for (int t = 0; t < NUM_TRACKS; t++) {
+            float x = 28 + t * 10;
+            addChild(createLightCentered<MediumLight<GreenLight>>(mm2px(Vec(x, 14)), module, Sequencer::TRACK_SELECT_LIGHTS + t));
+            addParam(createParamCentered<LEDButton>(mm2px(Vec(x, 14)), module, Sequencer::TRACK_SELECT_PARAMS + t));
         }
-        // Gate buttons at y=31
+
+        // Track controls: STP, DIV, DIR (x=62, 72, 82)
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(62, 14)), module, Sequencer::STEPS_PARAM));
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(72, 14)), module, Sequencer::DIV_PARAM));
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(82, 14)), module, Sequencer::DIR_PARAM));
+
+        // ========== STEP GRID (y=24 to y=87, 9mm spacing) ==========
+        float stepStartY = 24;
+        float stepSpacing = 9;
+
         for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x, 31)), module, Sequencer::GATE_LIGHTS + s));
-            addParam(createParamCentered<LEDButton>(mm2px(Vec(x, 31)), module, Sequencer::GATE_PARAMS + s));
+            float y = stepStartY + s * stepSpacing;
+
+            // Pitch encoder (x=28)
+            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(28, y)), module, Sequencer::PITCH_PARAMS + s));
+
+            // Gate buttons for T1, T2, T3 (x=40, 50, 60)
+            for (int t = 0; t < NUM_TRACKS; t++) {
+                float x = 40 + t * 10;
+                int idx = t * NUM_STEPS + s;
+                addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x, y)), module, Sequencer::GATE_LIGHTS + idx));
+                addParam(createParamCentered<LEDButton>(mm2px(Vec(x, y)), module, Sequencer::GATE_PARAMS + idx));
+            }
+
+            // Step indicator LEDs for T1, T2, T3 (x=72, 77, 82)
+            for (int t = 0; t < NUM_TRACKS; t++) {
+                float x = 72 + t * 5;
+                int idx = t * NUM_STEPS + s;
+                addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x, y)), module, Sequencer::STEP_LIGHTS + idx));
+            }
         }
-        // Step LEDs at y=36
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x, 36)), module, Sequencer::STEP_LIGHTS + s));
-        }
-        // Track 1 outputs (cx=127.18, cy=19 and 31)
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 19)), module, Sequencer::TRACK1_PITCH_OUTPUT));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 31)), module, Sequencer::TRACK1_GATE_OUTPUT));
 
-        // ========== TRACK 2 (y=40-67) ==========
-        // Vertical track controls at x=26
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 51)), module, Sequencer::TRACK2_STEPS_PARAM));  // STP
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 57)), module, Sequencer::TRACK2_DIV_PARAM));    // DIV
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 63)), module, Sequencer::TRACK2_DIR_PARAM));    // DIR
+        // ========== RIGHT COLUMN: OUTPUTS (x=93, 10mm spacing) ==========
+        float outX = 93;
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 22)), module, Sequencer::TRACK1_PITCH_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 32)), module, Sequencer::TRACK1_GATE_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 42)), module, Sequencer::TRACK2_PITCH_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 52)), module, Sequencer::TRACK2_GATE_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 62)), module, Sequencer::TRACK3_PITCH_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 72)), module, Sequencer::TRACK3_GATE_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 82)), module, Sequencer::CLOCK_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 92)), module, Sequencer::RESET_OUTPUT));
 
-        // Pitch knobs at y=51
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x, 51)), module, Sequencer::PITCH_PARAMS + NUM_STEPS + s));
-        }
-        // Gate buttons at y=60
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x, 60)), module, Sequencer::GATE_LIGHTS + NUM_STEPS + s));
-            addParam(createParamCentered<LEDButton>(mm2px(Vec(x, 60)), module, Sequencer::GATE_PARAMS + NUM_STEPS + s));
-        }
-        // Step LEDs at y=65
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x, 65)), module, Sequencer::STEP_LIGHTS + NUM_STEPS + s));
-        }
-        // Track 2 outputs (cx=127.18, cy=48 and 60)
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 48)), module, Sequencer::TRACK2_PITCH_OUTPUT));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 60)), module, Sequencer::TRACK2_GATE_OUTPUT));
+        // ========== BOTTOM SECTION (y=97-120) ==========
+        // Groove: SWG, PW (x=26, 36, y=106)
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 106)), module, Sequencer::SWING_PARAM));
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(36, 106)), module, Sequencer::PW_PARAM));
 
-        // ========== TRACK 3 (y=69-96) ==========
-        // Vertical track controls at x=26
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 80)), module, Sequencer::TRACK3_STEPS_PARAM));  // STP
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 86)), module, Sequencer::TRACK3_DIV_PARAM));    // DIV
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(26, 92)), module, Sequencer::TRACK3_DIR_PARAM));    // DIR
-
-        // Pitch knobs at y=80
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x, 80)), module, Sequencer::PITCH_PARAMS + 2 * NUM_STEPS + s));
-        }
-        // Gate buttons at y=89
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x, 89)), module, Sequencer::GATE_LIGHTS + 2 * NUM_STEPS + s));
-            addParam(createParamCentered<LEDButton>(mm2px(Vec(x, 89)), module, Sequencer::GATE_PARAMS + 2 * NUM_STEPS + s));
-        }
-        // Step LEDs at y=94
-        for (int s = 0; s < NUM_STEPS; s++) {
-            float x = 42 + s * 9;
-            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x, 94)), module, Sequencer::STEP_LIGHTS + 2 * NUM_STEPS + s));
-        }
-        // Track 3 outputs (cx=127.18, cy=77 and 89)
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 77)), module, Sequencer::TRACK3_PITCH_OUTPUT));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(127.18, 89)), module, Sequencer::TRACK3_GATE_OUTPUT));
-
-        // ========== BOTTOM SECTION (y=98-126) ==========
-        // GROOVE section - SWG knob (cx=27, cy=112), PW knob (cx=38, cy=112)
-        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(27, 112)), module, Sequencer::SWING_PARAM));
-        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(38, 112)), module, Sequencer::PW_PARAM));
-
-        // MOD section - CPY button (cx=50, cy=110), DEL button (cx=50, cy=118)
-        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(50, 110)), module, Sequencer::COPY_LIGHT));
-        addParam(createParamCentered<LEDButton>(mm2px(Vec(50, 110)), module, Sequencer::COPY_PARAM));
-
-        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(50, 118)), module, Sequencer::DELETE_LIGHT));
-        addParam(createParamCentered<LEDButton>(mm2px(Vec(50, 118)), module, Sequencer::DELETE_PARAM));
-
-        // SCV IN jack (cx=64, cy=114)
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(64, 114)), module, Sequencer::SCENE_CV_INPUT));
-
-        // SCENES section - 2x4 grid
-        // Row 1 (cy=110): scenes 1-4 at cx=74, 82, 90, 98
-        // Row 2 (cy=118): scenes 5-8 at cx=74, 82, 90, 98
-        float sceneX[4] = {74, 82, 90, 98};
+        // Scene buttons (2x4 grid, starting x=46, y=102/110)
         for (int s = 0; s < NUM_SCENES; s++) {
             int row = s / 4;
             int col = s % 4;
-            float x = sceneX[col];
-            float y = (row == 0) ? 110 : 118;
-
+            float x = 46 + col * 7;
+            float y = 102 + row * 8;
             addChild(createLightCentered<MediumLight<RedGreenBlueLight>>(mm2px(Vec(x, y)), module, Sequencer::SCENE_LIGHTS + s * 3));
             addParam(createParamCentered<LEDButton>(mm2px(Vec(x, y)), module, Sequencer::SCENE_PARAMS + s));
         }
 
-        // OUTPUTS section - CLK OUT (cx=112, cy=111), RST OUT (cx=124, cy=111), SCV OUT (cx=134, cy=111)
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(112, 111)), module, Sequencer::CLOCK_OUTPUT));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(124, 111)), module, Sequencer::RESET_OUTPUT));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(134, 111)), module, Sequencer::SCENE_CV_OUTPUT));
+        // MOD: CPY, DEL (x=78, y=102/110)
+        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(78, 102)), module, Sequencer::COPY_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(78, 102)), module, Sequencer::COPY_PARAM));
+        addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(78, 110)), module, Sequencer::DELETE_LIGHT));
+        addParam(createParamCentered<LEDButton>(mm2px(Vec(78, 110)), module, Sequencer::DELETE_PARAM));
+
+        // SCV OUT (x=93, y=106)
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(outX, 106)), module, Sequencer::SCENE_CV_OUTPUT));
     }
 };
 
