@@ -1,0 +1,1369 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "e1e5c1f0-1234-5678-9abc-def012345678")
+	(paper "A3")
+	(title_block
+		(title "SENGBARD - 3-Track Eurorack Sequencer")
+		(date "2025-01-26")
+		(rev "0.1")
+		(comment 1 "Main Sheet - Hierarchical Overview")
+		(comment 2 "STM32F103 based, 12-bit CV, 8 encoders")
+	)
+	(lib_symbols)
+	(junction
+		(at 139.7 125.73)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0c00e87c-1355-4c0c-9482-d4072e7bd11e")
+	)
+	(junction
+		(at 135.89 123.19)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0e92b001-e40f-4d76-a2c6-df6e3d32bf03")
+	)
+	(junction
+		(at 123.19 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1411d454-f827-4b4e-9a9c-809b1c41ae17")
+	)
+	(junction
+		(at 125.73 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8695cb3f-55c9-43ab-b110-e6ddbe32ce28")
+	)
+	(no_connect
+		(at 120.65 153.67)
+		(uuid "ecb8cb86-7753-4c8e-b76a-08af2b03a56d")
+	)
+	(wire
+		(pts
+			(xy 111.76 123.19) (xy 135.89 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "01abb3cc-cadc-49ba-b865-3efde8706971")
+	)
+	(wire
+		(pts
+			(xy 139.7 125.73) (xy 106.68 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "01d8d40c-3399-4289-b32e-68a1bb948f9f")
+	)
+	(wire
+		(pts
+			(xy 111.76 105) (xy 111.76 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "043b86fd-2223-4bd7-bdcb-7a37d505aa55")
+	)
+	(wire
+		(pts
+			(xy 109.22 138.43) (xy 109.22 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "135ee64d-1077-426a-b5b1-6b808cb58fa4")
+	)
+	(wire
+		(pts
+			(xy 163.83 123.19) (xy 163.83 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "150e63aa-945b-4b86-b2bb-23d3b1da833b")
+	)
+	(wire
+		(pts
+			(xy 109.22 105) (xy 109.22 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "159642ee-a25d-4372-98ea-5f7d5a4857c7")
+	)
+	(wire
+		(pts
+			(xy 125.73 114.3) (xy 125.73 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18fc8647-7569-43bf-8b27-6e071b3bdefc")
+	)
+	(wire
+		(pts
+			(xy 106.68 130.81) (xy 123.19 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f8037c8-1dec-4987-bdc8-516ac052ae2c")
+	)
+	(wire
+		(pts
+			(xy 106.68 105) (xy 106.68 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23be130d-705d-402c-bc9a-b37d20576b8b")
+	)
+	(wire
+		(pts
+			(xy 154.94 153.67) (xy 166.37 153.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24390e8a-15a0-4b9d-88b0-14fd21f01528")
+	)
+	(wire
+		(pts
+			(xy 106.68 138.43) (xy 106.68 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24f59171-6d72-42dd-8df8-a455f776d5da")
+	)
+	(wire
+		(pts
+			(xy 149.86 101.6) (xy 165.1 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2db2ab74-f8f0-4c78-9cfe-b9c2fcdb4567")
+	)
+	(wire
+		(pts
+			(xy 123.19 116.84) (xy 123.19 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3be53ba4-6912-47b8-a6be-4ba4752bb63b")
+	)
+	(wire
+		(pts
+			(xy 166.37 144.78) (xy 161.29 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3cfd9989-11ea-49eb-ba3c-2b30150599b5")
+	)
+	(wire
+		(pts
+			(xy 123.19 105) (xy 123.19 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "42efdd97-ba70-4814-9a62-a00a9b938860")
+	)
+	(wire
+		(pts
+			(xy 109.22 132.08) (xy 125.73 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "432791b1-8ad4-4329-9622-242117fba68a")
+	)
+	(wire
+		(pts
+			(xy 162.56 142.24) (xy 162.56 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4c089af0-442c-4065-a805-951331ad6916")
+	)
+	(wire
+		(pts
+			(xy 156.21 63.5) (xy 165.1 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5008468a-70bf-482e-b4b0-07ef940c3db4")
+	)
+	(wire
+		(pts
+			(xy 149.86 97.79) (xy 165.1 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "561286de-ac3b-4f2d-bae2-3ca6826ee833")
+	)
+	(wire
+		(pts
+			(xy 149.86 87.63) (xy 165.1 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6445382c-2f39-4c3d-a653-0ccab4b9b1af")
+	)
+	(wire
+		(pts
+			(xy 149.86 74.93) (xy 152.4 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b109596-97ee-4ec9-a307-ec6beed77c52")
+	)
+	(wire
+		(pts
+			(xy 149.86 80.01) (xy 160.02 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6cec4057-4fc8-476e-94f5-39407d0174ca")
+	)
+	(wire
+		(pts
+			(xy 160.02 66.04) (xy 165.1 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6dacaeda-ce4f-44ab-b1dc-142b9919af77")
+	)
+	(wire
+		(pts
+			(xy 152.4 60.95) (xy 165.1 60.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8722a5e5-9cbc-40ba-a2de-4500a2aa34a7")
+	)
+	(wire
+		(pts
+			(xy 156.21 77.47) (xy 156.21 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8922b5fa-1d81-4d26-982d-e40e1bc00ea1")
+	)
+	(wire
+		(pts
+			(xy 123.19 116.84) (xy 166.22 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9559e658-1da0-45fe-a7fe-4cc5e1677550")
+	)
+	(wire
+		(pts
+			(xy 149.86 92.71) (xy 165.1 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9c76befd-1e8a-42c3-9683-d14431fe4ac8")
+	)
+	(wire
+		(pts
+			(xy 161.29 144.78) (xy 161.29 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e053572-246b-41ff-bea7-19c6a2bfc4fa")
+	)
+	(wire
+		(pts
+			(xy 120.65 119.38) (xy 166.22 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a276f346-ab87-4c58-a7d7-012275456d65")
+	)
+	(wire
+		(pts
+			(xy 149.86 77.47) (xy 156.21 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a67e6957-900f-4cfd-908d-4eea74187f77")
+	)
+	(wire
+		(pts
+			(xy 139.7 125.73) (xy 139.7 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "acbc9e68-dc59-4a89-92f1-04415de18e18")
+	)
+	(wire
+		(pts
+			(xy 161.29 125.73) (xy 139.7 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aeca2155-1544-4ab9-a153-c75f3c68cd95")
+	)
+	(wire
+		(pts
+			(xy 160.02 80.01) (xy 160.02 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b0ad577a-7f66-4a20-8e43-4f750948ee76")
+	)
+	(wire
+		(pts
+			(xy 163.83 139.7) (xy 166.37 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5b4b95b-1dbd-488f-8a75-6f103e42d493")
+	)
+	(wire
+		(pts
+			(xy 91.44 114.3) (xy 125.73 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bce236c9-1905-4eff-96aa-2a35dfb1f111")
+	)
+	(wire
+		(pts
+			(xy 162.56 124.46) (xy 109.22 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c027599e-c293-4a5c-a848-aad42a475fea")
+	)
+	(wire
+		(pts
+			(xy 120.65 105) (xy 120.65 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c05018ca-92e0-4a93-81b2-a9a12a61b035")
+	)
+	(wire
+		(pts
+			(xy 91.44 116.84) (xy 123.19 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6919d2c-cf96-4c0a-9e40-c6c19f4be8ed")
+	)
+	(wire
+		(pts
+			(xy 152.4 74.93) (xy 152.4 60.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cf46c1ce-73b5-4882-bdcd-fc92921586c2")
+	)
+	(wire
+		(pts
+			(xy 149.86 90.17) (xy 165.1 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1b562dc-e116-4e18-ac9f-569d52042ff8")
+	)
+	(wire
+		(pts
+			(xy 135.89 123.19) (xy 135.89 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d31183c3-7d2c-4bfa-9726-ff3a70a96583")
+	)
+	(wire
+		(pts
+			(xy 125.73 114.3) (xy 166.22 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d917ec26-3dc9-4080-b55e-da8e72c04908")
+	)
+	(wire
+		(pts
+			(xy 125.73 105) (xy 125.73 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dcd28bcb-06b6-41ae-93fc-b656686f5afc")
+	)
+	(wire
+		(pts
+			(xy 135.89 123.19) (xy 163.83 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e866403c-d64f-4822-adf9-d7d63a1e4805")
+	)
+	(wire
+		(pts
+			(xy 166.37 142.24) (xy 162.56 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e9b786f1-e90e-470a-b230-c22af8972c5d")
+	)
+	(sheet
+		(at 165.1 54.6)
+		(size 40 25)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 194 194 255 1.0000)
+		)
+		(uuid "121f1782-177a-4d4f-b3bf-6a6cb7c59eb4")
+		(property "Sheetname" "DAC & CV Outputs"
+			(at 165.1 53.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "dac_cv.kicad_sch"
+			(at 184.912 52.324 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "STM_DAC_CV1" input
+			(at 165.1 60.95 180)
+			(uuid "6e31dc80-6dfe-4928-b77a-f25d106cbd47")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "STM_DAC_CV2" input
+			(at 165.1 63.5 180)
+			(uuid "bdac1c94-4cbc-43cb-b2d2-3cb2f0afc789")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "STM_DAC_CV3" input
+			(at 165.1 66.04 180)
+			(uuid "29c3a8ef-d94e-4e22-bbdf-41a0998e7c45")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 166.37 135.24)
+		(size 40 28.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 194 255 255 1.0000)
+		)
+		(uuid "301a49bd-451e-4ee9-8fa2-8ade417a6700")
+		(property "Sheetname" "Encoder LEDs"
+			(at 166.37 134.5284 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "encoder_leds.kicad_sch"
+			(at 166.37 164.4146 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "LED_CLK" input
+			(at 166.37 139.7 180)
+			(uuid "5b29002f-70bd-4c6e-af84-3fb5cd2d5ed9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LED_DIN" input
+			(at 166.37 142.24 180)
+			(uuid "8b2bb8df-7f3e-4f55-9c27-cb16de515297")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LED_LATCH" input
+			(at 166.37 144.78 180)
+			(uuid "6e922de1-9e3c-46b1-a8cc-d9d60b2c3caf")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LED_DOUT" input
+			(at 166.37 153.67 180)
+			(uuid "c1cc83cc-bfe4-4cae-8993-612c0ce7dca8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 66.04 106.68)
+		(size 25.4 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 185 255 143 1.0000)
+		)
+		(uuid "31fc420d-f921-43e0-8f58-c12b1db1de7b")
+		(property "Sheetname" "Display"
+			(at 66.04 105.9684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "display.kicad_sch"
+			(at 66.04 128.8546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "I2C_SCL" bidirectional
+			(at 91.44 114.3 0)
+			(uuid "8faa463e-bc32-409d-997e-3b93e22573b2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "I2C_SDA" bidirectional
+			(at 91.44 116.84 0)
+			(uuid "b202d3af-990c-4d91-a8a3-78bc55211ae8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "12")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 165.1 85.08)
+		(size 40 20)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 194 194 1.0000)
+		)
+		(uuid "3d3c5c24-9aef-4b77-8daf-1752d43b95dd")
+		(property "Sheetname" "Gate Outputs"
+			(at 165.1 84.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "gates.kicad_sch"
+			(at 185.166 83.058 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "CLK_OUT" input
+			(at 165.1 97.79 180)
+			(uuid "933ad015-45d3-4234-8029-46f5abfe4e09")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "GATE_T1" input
+			(at 165.1 87.63 180)
+			(uuid "0fe10b71-dd40-4a09-b520-4bf8398eb8e8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "GATE_T2" input
+			(at 165.1 90.17 180)
+			(uuid "108e2886-8a67-48c6-bd35-056d85e36ec0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "GATE_T3" input
+			(at 165.1 92.71 180)
+			(uuid "be58ea91-5426-45f4-8b49-de7188fe5228")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RST_OUT" input
+			(at 165.1 101.6 180)
+			(uuid "f94c93a1-ed79-45c0-b913-a0223ed222ca")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "8")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 109.86 29.2)
+		(size 40 20)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 255 194 1.0000)
+		)
+		(uuid "75ed0237-5b1b-4872-a15d-30d4ab32a898")
+		(property "Sheetname" "Power Supply"
+			(at 109.86 28.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 109.86 49.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 62.23 71.12)
+		(size 29.21 22.86)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 174 223 1.0000)
+		)
+		(uuid "868846db-1eb0-48df-b605-2f6aef95d859")
+		(property "Sheetname" "Pots"
+			(at 62.23 70.4084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "pots.kicad_sch"
+			(at 62.23 94.5646 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "11")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 120.65 139.7)
+		(size 34.29 26.67)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 127 178 255 1.0000)
+		)
+		(uuid "88a3d10d-3300-4719-82fa-a6952cedf639")
+		(property "Sheetname" "UI LEDs"
+			(at 120.65 138.9884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "ui_leds.kicad_sch"
+			(at 120.65 166.9546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "LED_CLK" input
+			(at 135.89 139.7 90)
+			(uuid "93e0f5dd-4205-490e-bf90-5d8a25449065")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "LED_DIN" input
+			(at 154.94 153.67 0)
+			(uuid "a1663d0a-d31f-4cc2-9a59-218e7e03119a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "LED_DOUT" input
+			(at 120.65 153.67 180)
+			(uuid "9563a36a-2230-4332-beb5-c8c4c7da70e3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LED_LATCH" input
+			(at 139.7 139.7 90)
+			(uuid "e3e164f2-3295-4c31-bd31-5487499af95f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "10")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 80.01 138.43)
+		(size 34.29 29.21)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 231 152 1.0000)
+		)
+		(uuid "c7333f3f-0111-4ce1-8877-4c70f8a7a043")
+		(property "Sheetname" "Buttons"
+			(at 80.01 137.7184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "buttons.kicad_sch"
+			(at 80.01 168.2246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "BTN_INT" input
+			(at 97.79 138.43 90)
+			(uuid "660398fe-e9f2-4bae-b47f-7c4220fbccdf")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "I2C_SCL" input
+			(at 109.22 138.43 90)
+			(uuid "c7a17f50-7fd4-4519-ae5b-db74c4bf8d28")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "I2C_SDA" input
+			(at 106.68 138.43 90)
+			(uuid "71abb946-a1dd-4632-a425-46e44210acc2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "9")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 57.79 42.53)
+		(size 40 20)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 224 194 1.0000)
+		)
+		(uuid "c74c54ff-c866-4c0a-8ca6-74b3d6ff4d9a")
+		(property "Sheetname" "CV Inputs"
+			(at 57.79 41.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "inputs.kicad_sch"
+			(at 57.79 63.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 166.22 108.57)
+		(size 40 20)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 224 194 255 1.0000)
+		)
+		(uuid "dfe46c3b-4ccd-481c-9939-029442d2adbb")
+		(property "Sheetname" "Encoders"
+			(at 166.22 107.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "encoders.kicad_sch"
+			(at 166.22 129.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "I2C_SCL" input
+			(at 166.22 114.3 180)
+			(uuid "655edbde-af85-4718-b686-13e2164d1a1c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "I2C_SDA" input
+			(at 166.22 116.84 180)
+			(uuid "5d8bf3e1-0db5-471f-b893-fc84306ff0f1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "MCP_INT" input
+			(at 166.22 119.38 180)
+			(uuid "efa30ef5-c7ef-4ac0-a57d-5da9c4446d3a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 100 71.12)
+		(size 49.86 33.88)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 194 255 194 1.0000)
+		)
+		(uuid "e2ffd037-28da-4519-b502-93d443457803")
+		(property "Sheetname" "MCU - STM32G431"
+			(at 100 70.4084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu.kicad_sch"
+			(at 100 105.5846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "CLK_IN" input
+			(at 100 78.74 180)
+			(uuid "a6d91d6a-dccc-4b66-9db3-dadb6793d14f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CLK_OUT" input
+			(at 149.86 97.79 0)
+			(uuid "817b7d91-f70a-443e-93c5-60e0c8e97dda")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DAC1_OUT1" output
+			(at 149.86 74.93 0)
+			(uuid "c5ecc54d-e15c-4cbb-9650-66c5c4ed2693")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DAC1_OUT2" input
+			(at 149.86 77.47 0)
+			(uuid "743fe309-4901-4f6d-8446-a4aa8063f406")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DAC3_OUT1" input
+			(at 149.86 80.01 0)
+			(uuid "0ba197ba-d7c0-4872-acd6-af8c883f733f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "GATE_T1" input
+			(at 149.86 87.63 0)
+			(uuid "c60e5985-7eef-4906-95f6-aa51c4c578a7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "GATE_T2" input
+			(at 149.86 90.17 0)
+			(uuid "da08ff50-d974-4a3f-8fc4-fbc27fd1977c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "GATE_T3" input
+			(at 149.86 92.71 0)
+			(uuid "185bd0ca-84ea-4c62-b6ba-f8a306aea3b3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "I2C_SCL" input
+			(at 125.73 105 270)
+			(uuid "20bbe26f-c179-4158-b648-50e1f638b7d8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "I2C_SDA" input
+			(at 123.19 105 270)
+			(uuid "53962b68-b4bb-4281-8c90-1a9d4e83a933")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LED_CLK" input
+			(at 111.76 105 270)
+			(uuid "2a67290e-3afb-496d-9311-68466514124d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LED_DATA" input
+			(at 109.22 105 270)
+			(uuid "b1ddcb8e-b5ed-4340-86f5-f6521b30d7b4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LED_LATCH" input
+			(at 106.68 105 270)
+			(uuid "f6589b6f-7c68-46a8-bd0e-cab5aa6a59e1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "MCP_INT" input
+			(at 120.65 105 270)
+			(uuid "160e442a-a5e9-4171-beec-8729d0757325")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RST_IN" input
+			(at 100 90.17 180)
+			(uuid "94cf3ee2-c29c-4a77-81e9-f5259ff6b05c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RST_OUT" input
+			(at 149.86 101.6 0)
+			(uuid "857ac89e-5ac0-455f-8740-92d380c712e1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SCENE_CV_IN" input
+			(at 100 81.28 180)
+			(uuid "8d29a259-3978-4ca2-a28c-b2c967918cc5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

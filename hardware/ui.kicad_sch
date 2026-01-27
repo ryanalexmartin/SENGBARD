@@ -1,0 +1,880 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "80fb1e5d-02c1-4337-b06d-d57fe98bff68")
+	(paper "A3")
+	(title_block
+		(title "SENGBARD - UI Components")
+		(date "2025-01-26")
+		(rev "0.2")
+		(comment 1 "OLED Display, MAX7219 LED Driver, Button Matrix")
+		(comment 2 "64x Encoder Ring LEDs, 4x Buttons")
+	)
+	(lib_symbols
+		(symbol "Connector_Generic:Conn_01x04"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 5.08 0)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Value" "Conn_01x04"
+				(at 0 -7.62 0)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "Conn_01x04_1_1"
+				(rectangle (start -1.27 3.81) (end 1.27 -6.35)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+				(pin passive line (at -5.08 2.54 0) (length 3.81) (name "Pin_1" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at -5.08 0 0) (length 3.81) (name "Pin_2" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at -5.08 -2.54 0) (length 3.81) (name "Pin_3" (effects (font (size 1.27 1.27)))) (number "3" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at -5.08 -5.08 0) (length 3.81) (name "Pin_4" (effects (font (size 1.27 1.27)))) (number "4" (effects (font (size 1.27 1.27)))))
+			)
+		)
+		(symbol "Device:R"
+			(pin_numbers hide)
+			(pin_names (offset 0))
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "R_0_1"
+				(rectangle (start -1.016 -2.54) (end 1.016 2.54)
+					(stroke (width 0.254) (type default))
+					(fill (type none))
+				)
+			)
+			(symbol "R_1_1"
+				(pin passive line (at 0 3.81 270) (length 1.27) (name "~" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at 0 -3.81 90) (length 1.27) (name "~" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+			)
+		)
+		(symbol "Device:C"
+			(pin_numbers hide)
+			(pin_names (offset 0.254))
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "C"
+				(at 0.635 -2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "C_0_1"
+				(polyline
+					(pts (xy -2.032 -0.762) (xy 2.032 -0.762))
+					(stroke (width 0.508) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy -2.032 0.762) (xy 2.032 0.762))
+					(stroke (width 0.508) (type default))
+					(fill (type none))
+				)
+			)
+			(symbol "C_1_1"
+				(pin passive line (at 0 3.81 270) (length 2.794) (name "~" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at 0 -3.81 90) (length 2.794) (name "~" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+			)
+		)
+		(symbol "Device:LED"
+			(pin_numbers hide)
+			(pin_names (offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 4.064 0)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Value" "LED"
+				(at 0 -3.556 0)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "LED_0_1"
+				(polyline
+					(pts (xy -1.27 -1.27) (xy -1.27 1.27))
+					(stroke (width 0.254) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy -1.27 0) (xy 1.27 0))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27))
+					(stroke (width 0.254) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy -3.048 -1.524) (xy -1.778 -2.794))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy -1.778 -1.524) (xy -0.508 -2.794))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy -2.032 -2.794) (xy -1.778 -2.794) (xy -1.778 -2.54))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy -0.762 -2.794) (xy -0.508 -2.794) (xy -0.508 -2.54))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+			)
+			(symbol "LED_1_1"
+				(pin passive line (at -3.81 0 0) (length 2.54) (name "K" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at 3.81 0 180) (length 2.54) (name "A" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+			)
+		)
+		(symbol "Switch:SW_Push"
+			(pin_numbers hide)
+			(pin_names (offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 1.27 6.35 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "SW_Push"
+				(at 0 -1.524 0)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Footprint" ""
+				(at 0 5.08 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" "~"
+				(at 0 5.08 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "SW_Push_0_1"
+				(circle (center -2.032 0) (radius 0.508)
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(circle (center 2.032 0) (radius 0.508)
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy 0 1.27) (xy 0 3.048))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy -2.54 2.54) (xy 2.54 2.54))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+			)
+			(symbol "SW_Push_1_1"
+				(pin passive line (at -5.08 0 0) (length 2.54) (name "1" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at 5.08 0 180) (length 2.54) (name "2" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+			)
+		)
+	)
+
+	(text "OLED DISPLAY (I2C)"
+		(exclude_from_sim no)
+		(at 86.2 78.59 0)
+		(effects (font (size 3 3) (bold yes)) (justify left))
+		(uuid "a0000001-0000-0000-0000-000000000001")
+	)
+	(text "MAX7219 LED DRIVER"
+		(exclude_from_sim no)
+		(at 86.2 128.59 0)
+		(effects (font (size 3 3) (bold yes)) (justify left))
+		(uuid "a0000001-0000-0000-0000-000000000002")
+	)
+	(text "ENCODER 1 LEDs (copy for ENC 2-8)"
+		(exclude_from_sim no)
+		(at 170 138 0)
+		(effects (font (size 2 2) (bold yes)) (justify left))
+		(uuid "a0000001-0000-0000-0000-000000000003")
+	)
+	(text "BUTTON MATRIX (2x2)"
+		(exclude_from_sim no)
+		(at 92.55 230 0)
+		(effects (font (size 3 3) (bold yes)) (justify left))
+		(uuid "a0000001-0000-0000-0000-000000000004")
+	)
+	(text "Add MAX7219 from Driver_LED library\nDIN=LED_DATA, CLK=LED_CLK, LOAD=LED_LATCH\nISET=27K to GND, VCC=+5V"
+		(exclude_from_sim no)
+		(at 86.2 138 0)
+		(effects (font (size 1.5 1.5)) (justify left))
+		(uuid "d0000001-0000-0000-0000-000000000005")
+	)
+
+	(hierarchical_label "I2C_SDA" (shape bidirectional) (at 76.2 93.59 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000001")
+	)
+	(hierarchical_label "I2C_SCL" (shape bidirectional) (at 76.2 98.59 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000002")
+	)
+	(hierarchical_label "LED_DATA" (shape input) (at 76.2 148.59 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000003")
+	)
+	(hierarchical_label "LED_CLK" (shape input) (at 76.2 153.59 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000004")
+	)
+	(hierarchical_label "LED_LATCH" (shape input) (at 76.2 158.59 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000005")
+	)
+	(hierarchical_label "BTN_COL0" (shape bidirectional) (at 82.55 245 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000006")
+	)
+	(hierarchical_label "BTN_COL1" (shape bidirectional) (at 82.55 250 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000007")
+	)
+	(hierarchical_label "BTN_ROW0" (shape bidirectional) (at 82.55 255 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000008")
+	)
+	(hierarchical_label "BTN_ROW1" (shape bidirectional) (at 82.55 260 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b0000001-0000-0000-0000-000000000009")
+	)
+
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x04")
+		(at 101.6 93.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000001-0000-0000-0000-000000000001")
+		(property "Reference" "J10"
+			(at 101.6 84.59 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "OLED"
+			(at 101.6 103.59 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 101.6 93.59 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 101.6 93.59 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000001-0000-0000-0001-000000000001"))
+		(pin "2" (uuid "e0000001-0000-0000-0001-000000000002"))
+		(pin "3" (uuid "e0000001-0000-0000-0001-000000000003"))
+		(pin "4" (uuid "e0000001-0000-0000-0001-000000000004"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "J10") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:R")
+		(at 115 165 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000002-0000-0000-0000-000000000001")
+		(property "Reference" "R20"
+			(at 117 165 90)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "27K"
+			(at 115 165 90)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 115 165 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 115 165 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000002-0000-0000-0001-000000000001"))
+		(pin "2" (uuid "e0000002-0000-0000-0001-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "R20") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:C")
+		(at 125 165 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000003-0000-0000-0000-000000000001")
+		(property "Reference" "C20"
+			(at 128 162 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Value" "10uF"
+			(at 128 168 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Footprint" ""
+			(at 125 165 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 125 165 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000003-0000-0000-0001-000000000001"))
+		(pin "2" (uuid "e0000003-0000-0000-0001-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "C20") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:C")
+		(at 135 165 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000004-0000-0000-0000-000000000001")
+		(property "Reference" "C21"
+			(at 138 162 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Value" "100nF"
+			(at 138 168 0)
+			(effects (font (size 1.27 1.27)) (justify left))
+		)
+		(property "Footprint" ""
+			(at 135 165 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 135 165 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000004-0000-0000-0001-000000000001"))
+		(pin "2" (uuid "e0000004-0000-0000-0001-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "C21") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 180 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000001")
+		(property "Reference" "D1"
+			(at 180 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 180 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 180 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 180 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0001-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0001-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D1") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 195 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000002")
+		(property "Reference" "D2"
+			(at 195 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 195 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 195 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 195 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0002-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0002-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D2") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 210 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000003")
+		(property "Reference" "D3"
+			(at 210 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 210 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 210 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 210 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0003-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0003-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D3") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 225 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000004")
+		(property "Reference" "D4"
+			(at 225 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 225 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 225 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 225 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0004-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0004-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D4") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 240 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000005")
+		(property "Reference" "D5"
+			(at 240 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 240 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 240 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 240 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0005-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0005-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D5") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 255 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000006")
+		(property "Reference" "D6"
+			(at 255 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 255 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 255 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 255 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0006-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0006-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D6") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 270 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000007")
+		(property "Reference" "D7"
+			(at 270 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 270 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 270 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 270 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0007-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0007-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D7") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:LED")
+		(at 285 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000010-0000-0000-0000-000000000008")
+		(property "Reference" "D8"
+			(at 285 143 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "LED"
+			(at 285 152 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 285 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 285 148 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000010-0000-0000-0008-000000000001"))
+		(pin "2" (uuid "e0000010-0000-0000-0008-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "D8") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 110 250 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000020-0000-0000-0000-000000000001")
+		(property "Reference" "SW10"
+			(at 110 243 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "RUN"
+			(at 110 256 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 110 250 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 110 250 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000020-0000-0000-0001-000000000001"))
+		(pin "2" (uuid "e0000020-0000-0000-0001-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "SW10") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 135 250 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000020-0000-0000-0000-000000000002")
+		(property "Reference" "SW11"
+			(at 135 243 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "MODE"
+			(at 135 256 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 135 250 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 135 250 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000020-0000-0000-0002-000000000001"))
+		(pin "2" (uuid "e0000020-0000-0000-0002-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "SW11") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 110 270 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000020-0000-0000-0000-000000000003")
+		(property "Reference" "SW12"
+			(at 110 263 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "SCENE_L"
+			(at 110 276 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 110 270 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 110 270 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000020-0000-0000-0003-000000000001"))
+		(pin "2" (uuid "e0000020-0000-0000-0003-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "SW12") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 135 270 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000020-0000-0000-0000-000000000004")
+		(property "Reference" "SW13"
+			(at 135 263 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "SCENE_R"
+			(at 135 276 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 135 270 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 135 270 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000020-0000-0000-0004-000000000001"))
+		(pin "2" (uuid "e0000020-0000-0000-0004-000000000002"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/80fb1e5d-02c1-4337-b06d-d57fe98bff68"
+					(reference "SW13") (unit 1)
+				)
+			)
+		)
+	)
+
+	(embedded_fonts no)
+)

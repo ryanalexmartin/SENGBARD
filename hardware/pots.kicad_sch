@@ -1,0 +1,542 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "1109ecce-7c41-4db8-81e3-e3b5d7294e9a")
+	(paper "A4")
+	(title_block
+		(title "SENGBARD - Potentiometers")
+		(date "2026-01-27")
+		(rev "0.1")
+		(comment 1 "3x Potentiometers for BPM, Swing, Pulse Width")
+	)
+	(lib_symbols
+		(symbol "Device:R_POT"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "RV"
+				(at -4.445 0 90)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Value" "R_POT"
+				(at -2.54 0 90)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "R_POT_0_1"
+				(polyline
+					(pts (xy 2.54 0) (xy 1.524 0))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy 1.143 0) (xy 2.286 0.508) (xy 2.286 -0.508) (xy 1.143 0))
+					(stroke (width 0) (type default))
+					(fill (type outline))
+				)
+				(rectangle (start 1.016 2.54) (end -1.016 -2.54)
+					(stroke (width 0.254) (type default))
+					(fill (type none))
+				)
+			)
+			(symbol "R_POT_1_1"
+				(pin passive line (at 0 3.81 270) (length 1.27) (name "1" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at 3.81 0 180) (length 1.27) (name "2" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at 0 -3.81 90) (length 1.27) (name "3" (effects (font (size 1.27 1.27)))) (number "3" (effects (font (size 1.27 1.27)))))
+			)
+		)
+		(symbol "power:+3V3"
+			(power)
+			(pin_numbers hide)
+			(pin_names (offset 0) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Value" "+3V3"
+				(at 0 3.556 0)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "+3V3_0_1"
+				(polyline
+					(pts (xy -0.762 1.27) (xy 0 2.54))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy 0 0) (xy 0 2.54))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+				(polyline
+					(pts (xy 0 2.54) (xy 0.762 1.27))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+			)
+			(symbol "+3V3_1_1"
+				(pin power_in line (at 0 0 90) (length 0) (name "+3V3" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+			)
+		)
+		(symbol "power:GND"
+			(power)
+			(pin_numbers hide)
+			(pin_names (offset 0) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects (font (size 1.27 1.27)))
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects (font (size 1.27 1.27)) hide)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts (xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27))
+					(stroke (width 0) (type default))
+					(fill (type none))
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line (at 0 0 270) (length 0) (name "GND" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+			)
+		)
+	)
+
+	(text "POTENTIOMETERS"
+		(exclude_from_sim no)
+		(at 100 50 0)
+		(effects (font (size 5 5) (bold yes)) (justify left))
+		(uuid "a0000001-0000-0000-0000-000000000001")
+	)
+	(text "BPM, Swing, Pulse Width"
+		(exclude_from_sim no)
+		(at 100 58 0)
+		(effects (font (size 2 2)) (justify left))
+		(uuid "a0000001-0000-0000-0000-000000000002")
+	)
+
+	(hierarchical_label "ADC_BPM" (shape output) (at 120 90 0)
+		(effects (font (size 1.27 1.27)) (justify left))
+		(uuid "b0000001-0000-0000-0000-000000000001")
+	)
+	(hierarchical_label "ADC_SWG" (shape output) (at 160 90 0)
+		(effects (font (size 1.27 1.27)) (justify left))
+		(uuid "b0000001-0000-0000-0000-000000000002")
+	)
+	(hierarchical_label "ADC_PW" (shape output) (at 200 90 0)
+		(effects (font (size 1.27 1.27)) (justify left))
+		(uuid "b0000001-0000-0000-0000-000000000003")
+	)
+
+	(symbol
+		(lib_id "Device:R_POT")
+		(at 115 90 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000001-0000-0000-0000-000000000001")
+		(property "Reference" "RV1"
+			(at 112 85 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "10K"
+			(at 112 95 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 115 90 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 115 90 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000001-0000-0000-0001-000000000001"))
+		(pin "2" (uuid "e0000001-0000-0000-0001-000000000002"))
+		(pin "3" (uuid "e0000001-0000-0000-0001-000000000003"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "RV1") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:R_POT")
+		(at 155 90 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000001-0000-0000-0000-000000000002")
+		(property "Reference" "RV2"
+			(at 152 85 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "10K"
+			(at 152 95 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 155 90 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 155 90 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000001-0000-0000-0002-000000000001"))
+		(pin "2" (uuid "e0000001-0000-0000-0002-000000000002"))
+		(pin "3" (uuid "e0000001-0000-0000-0002-000000000003"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "RV2") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "Device:R_POT")
+		(at 195 90 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000001-0000-0000-0000-000000000003")
+		(property "Reference" "RV3"
+			(at 192 85 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Value" "10K"
+			(at 192 95 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 195 90 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" "~"
+			(at 195 90 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000001-0000-0000-0003-000000000001"))
+		(pin "2" (uuid "e0000001-0000-0000-0003-000000000002"))
+		(pin "3" (uuid "e0000001-0000-0000-0003-000000000003"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "RV3") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "power:+3V3")
+		(at 115 82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000002-0000-0000-0000-000000000001")
+		(property "Reference" "#PWR01"
+			(at 115 86 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Value" "+3V3"
+			(at 115 78 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 115 82 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" ""
+			(at 115 82 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000002-0000-0000-0001-000000000001"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "#PWR01") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "power:+3V3")
+		(at 155 82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000002-0000-0000-0000-000000000002")
+		(property "Reference" "#PWR02"
+			(at 155 86 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Value" "+3V3"
+			(at 155 78 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 155 82 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" ""
+			(at 155 82 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000002-0000-0000-0002-000000000001"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "#PWR02") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "power:+3V3")
+		(at 195 82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000002-0000-0000-0000-000000000003")
+		(property "Reference" "#PWR03"
+			(at 195 86 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Value" "+3V3"
+			(at 195 78 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 195 82 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" ""
+			(at 195 82 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000002-0000-0000-0003-000000000001"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "#PWR03") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "power:GND")
+		(at 115 98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000003-0000-0000-0000-000000000001")
+		(property "Reference" "#PWR04"
+			(at 115 104 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Value" "GND"
+			(at 115 102 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 115 98 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" ""
+			(at 115 98 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000003-0000-0000-0001-000000000001"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "#PWR04") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "power:GND")
+		(at 155 98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000003-0000-0000-0000-000000000002")
+		(property "Reference" "#PWR05"
+			(at 155 104 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Value" "GND"
+			(at 155 102 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 155 98 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" ""
+			(at 155 98 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000003-0000-0000-0002-000000000001"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "#PWR05") (unit 1)
+				)
+			)
+		)
+	)
+
+	(symbol
+		(lib_id "power:GND")
+		(at 195 98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0000003-0000-0000-0000-000000000003")
+		(property "Reference" "#PWR06"
+			(at 195 104 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Value" "GND"
+			(at 195 102 0)
+			(effects (font (size 1.27 1.27)))
+		)
+		(property "Footprint" ""
+			(at 195 98 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(property "Datasheet" ""
+			(at 195 98 0)
+			(effects (font (size 1.27 1.27)) hide)
+		)
+		(pin "1" (uuid "e0000003-0000-0000-0003-000000000001"))
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/1109ecce-7c41-4db8-81e3-e3b5d7294e9a"
+					(reference "#PWR06") (unit 1)
+				)
+			)
+		)
+	)
+
+	(wire (pts (xy 115 86.19) (xy 115 82))
+		(stroke (width 0) (type default))
+		(uuid "w0000001-0000-0000-0000-000000000001")
+	)
+	(wire (pts (xy 155 86.19) (xy 155 82))
+		(stroke (width 0) (type default))
+		(uuid "w0000001-0000-0000-0000-000000000002")
+	)
+	(wire (pts (xy 195 86.19) (xy 195 82))
+		(stroke (width 0) (type default))
+		(uuid "w0000001-0000-0000-0000-000000000003")
+	)
+	(wire (pts (xy 115 93.81) (xy 115 98))
+		(stroke (width 0) (type default))
+		(uuid "w0000002-0000-0000-0000-000000000001")
+	)
+	(wire (pts (xy 155 93.81) (xy 155 98))
+		(stroke (width 0) (type default))
+		(uuid "w0000002-0000-0000-0000-000000000002")
+	)
+	(wire (pts (xy 195 93.81) (xy 195 98))
+		(stroke (width 0) (type default))
+		(uuid "w0000002-0000-0000-0000-000000000003")
+	)
+	(wire (pts (xy 118.81 90) (xy 120 90))
+		(stroke (width 0) (type default))
+		(uuid "w0000003-0000-0000-0000-000000000001")
+	)
+	(wire (pts (xy 158.81 90) (xy 160 90))
+		(stroke (width 0) (type default))
+		(uuid "w0000003-0000-0000-0000-000000000002")
+	)
+	(wire (pts (xy 198.81 90) (xy 200 90))
+		(stroke (width 0) (type default))
+		(uuid "w0000003-0000-0000-0000-000000000003")
+	)
+
+	(text "BPM"
+		(exclude_from_sim no)
+		(at 115 75 0)
+		(effects (font (size 2 2) (bold yes)))
+		(uuid "t0000001-0000-0000-0000-000000000001")
+	)
+	(text "SWG"
+		(exclude_from_sim no)
+		(at 155 75 0)
+		(effects (font (size 2 2) (bold yes)))
+		(uuid "t0000001-0000-0000-0000-000000000002")
+	)
+	(text "PW"
+		(exclude_from_sim no)
+		(at 195 75 0)
+		(effects (font (size 2 2) (bold yes)))
+		(uuid "t0000001-0000-0000-0000-000000000003")
+	)
+
+	(embedded_fonts no)
+)
