@@ -16,3 +16,10 @@ plugin/*.dll
 # IDE
 .vscode/
 .idea/
+
+# KiCad autosave files
+_autosave-*
+*-backups/
+*.kicad_prl
+fp-info-cache
+~*.lck
