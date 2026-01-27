@@ -12,7 +12,7 @@
 		(comment 2 "Track 1-3 Gates, Clock Out, Reset Out")
 	)
 	(lib_symbols
-		(symbol "Connector:AudioJack2"
+		(symbol "Connector_Audio:AudioJack2"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -59,6 +59,24 @@
 					(hide yes)
 				)
 			)
+			(property "ki_keywords" "audio jack receptacle mono phone headphone TS connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Jack*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
 			(symbol "AudioJack2_0_1"
 				(rectangle
 					(start -3.81 0)
@@ -71,6 +89,17 @@
 						(type outline)
 					)
 				)
+				(rectangle
+					(start -2.54 3.81)
+					(end 2.54 -2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
 				(polyline
 					(pts
 						(xy 0 0) (xy 0.635 -0.635) (xy 1.27 0) (xy 2.54 0)
@@ -81,17 +110,6 @@
 					)
 					(fill
 						(type none)
-					)
-				)
-				(rectangle
-					(start 2.54 3.81)
-					(end -3.81 -2.54)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
 					)
 				)
 				(polyline
@@ -1102,6 +1120,14 @@
 		(color 0 0 0 0)
 		(uuid "eefa10c6-3a1b-4de8-bdde-5160e1b08c1c")
 	)
+	(no_connect
+		(at 135.89 106.68)
+		(uuid "b59c26ee-0572-45f8-a954-57fd68756f1c")
+	)
+	(no_connect
+		(at 135.89 104.14)
+		(uuid "ec7f9af6-01c6-4e4e-ab61-2b5515e1ee21")
+	)
 	(wire
 		(pts
 			(xy 173.99 115.57) (xy 173.99 111.76)
@@ -1668,73 +1694,6 @@
 		(uuid "f24042b7-a35b-4969-bb7f-2b66ed9a1da7")
 	)
 	(symbol
-		(lib_id "Connector:AudioJack2")
-		(at 190.5 121.92 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "0693987e-80a0-4ca5-805c-6750c02d8f84")
-		(property "Reference" "J20"
-			(at 181.5 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "CLK_OUT"
-			(at 183.5 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
-			(at 190.5 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 190.5 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Clock Output Jack"
-			(at 190.5 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "S"
-			(uuid "28692305-1e20-436d-8b39-4441150bf986")
-		)
-		(pin "T"
-			(uuid "eebba002-d78d-41a3-a64b-b64c6c4fa349")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
-					(reference "J20")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 176.53 106.68 0)
 		(unit 1)
@@ -1805,41 +1764,34 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:AudioJack2")
-		(at 204.47 121.92 90)
+		(lib_id "Connector_Audio:AudioJack2")
+		(at 190.5 121.92 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "17215ddb-33c4-4898-aa54-1eb12b83b652")
-		(property "Reference" "J21"
-			(at 195.47 121.92 0)
+		(uuid "32cbec2b-4475-4f1d-9693-ecfec798aa4a")
+		(property "Reference" "J13"
+			(at 182.372 122.682 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "RST_OUT"
-			(at 197.47 121.92 0)
+		(property "Value" "CLK_OUT"
+			(at 184.912 126.238 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
-			(at 204.47 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 204.47 121.92 0)
+		(property "Footprint" ""
+			(at 190.5 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1847,8 +1799,17 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Reset Output Jack"
-			(at 204.47 121.92 0)
+		(property "Datasheet" "~"
+			(at 190.5 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+			(at 190.5 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1857,82 +1818,15 @@
 			)
 		)
 		(pin "S"
-			(uuid "e69aa214-822e-46c9-b9a8-53b3c3b0284e")
+			(uuid "6a20e3cc-b6dc-4d25-a146-e0b70521ee02")
 		)
 		(pin "T"
-			(uuid "00d887c6-cf28-4346-9091-c9bd257aad8d")
+			(uuid "84477f6b-056e-4acb-af2b-9eae1ee4d4fd")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
-					(reference "J21")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:AudioJack2")
-		(at 148.59 120.65 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2f468c7f-4208-4acc-851a-cb6866a7b331")
-		(property "Reference" "J17"
-			(at 139.59 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GATE_T1"
-			(at 141.59 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
-			(at 148.59 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 148.59 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Track 1 Gate Output Jack"
-			(at 148.59 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "S"
-			(uuid "b344a73d-2891-46fd-b026-4065eaf661af")
-		)
-		(pin "T"
-			(uuid "3b84c0b5-0029-4fcf-9815-52ccbe5317bf")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
-					(reference "J17")
+					(reference "J13")
 					(unit 1)
 				)
 			)
@@ -2213,6 +2107,75 @@
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
 					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Audio:AudioJack2")
+		(at 204.47 121.92 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "61f51b11-f603-4734-953e-986daed9f141")
+		(property "Reference" "J14"
+			(at 196.342 122.682 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RST_OUT"
+			(at 198.882 126.238 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 204.47 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 204.47 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+			(at 204.47 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "S"
+			(uuid "1f86130c-49d8-44c5-b216-4b3c174d9e4b")
+		)
+		(pin "T"
+			(uuid "6e40afc7-6992-4c9e-b96b-eb10387052b3")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
+					(reference "J14")
 					(unit 1)
 				)
 			)
@@ -2536,73 +2499,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:AudioJack2")
-		(at 162.56 120.65 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "bf724593-9779-4599-b7f3-0bf3dfe2d83c")
-		(property "Reference" "J18"
-			(at 153.56 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GATE_T2"
-			(at 155.56 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
-			(at 162.56 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 162.56 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Track 2 Gate Output Jack"
-			(at 162.56 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "S"
-			(uuid "60b9b784-8ab1-4c76-a520-542449d28c3f")
-		)
-		(pin "T"
-			(uuid "2bde3f88-41c4-4bb4-849e-a9515a9e02ff")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
-					(reference "J18")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 177.8 82.55 180)
 		(unit 1)
@@ -2810,31 +2706,33 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:AudioJack2")
+		(lib_id "Connector_Audio:AudioJack2")
 		(at 176.53 120.65 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "da4040c3-078a-402f-a81f-406abc952814")
-		(property "Reference" "J19"
-			(at 167.53 120.65 0)
+		(uuid "d9b1d803-6080-4bdc-87c1-ec62a77ba6a4")
+		(property "Reference" "J12"
+			(at 168.402 121.412 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "GATE_T3"
-			(at 169.53 120.65 0)
+			(at 170.942 124.968 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
+		(property "Footprint" ""
 			(at 176.53 120.65 0)
 			(effects
 				(font
@@ -2843,7 +2741,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 176.53 120.65 0)
 			(effects
 				(font
@@ -2852,7 +2750,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Track 3 Gate Output Jack"
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
 			(at 176.53 120.65 0)
 			(effects
 				(font
@@ -2862,15 +2760,84 @@
 			)
 		)
 		(pin "S"
-			(uuid "ca592721-9c9b-4470-a1f1-716aa099d3a2")
+			(uuid "cd372750-cbf8-4ad5-88b9-721021cc607a")
 		)
 		(pin "T"
-			(uuid "24de9683-43b1-45c7-86ae-d59958aeb741")
+			(uuid "17164110-8180-44d2-bddb-b109fc945728")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
-					(reference "J19")
+					(reference "J12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Audio:AudioJack2")
+		(at 162.56 120.65 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ec437507-a663-4016-a306-cf839e2c412a")
+		(property "Reference" "J11"
+			(at 154.432 121.412 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GATE_T2"
+			(at 156.972 124.968 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 162.56 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 162.56 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+			(at 162.56 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "S"
+			(uuid "cbc36b7f-ab02-4c73-b9f7-fa462382f4c5")
+		)
+		(pin "T"
+			(uuid "66f428e6-97b4-4613-9c8e-f1a85b56a741")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
+					(reference "J11")
 					(unit 1)
 				)
 			)
@@ -2941,6 +2908,75 @@
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
 					(reference "R29")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Audio:AudioJack2")
+		(at 148.59 120.65 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f474adc5-c5ae-4e2e-99df-f84b484f5d84")
+		(property "Reference" "J10"
+			(at 140.462 121.412 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GATE_T1"
+			(at 143.002 124.968 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 148.59 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 148.59 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+			(at 148.59 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "S"
+			(uuid "8cccab62-e109-4516-8dba-3e80c7e00a33")
+		)
+		(pin "T"
+			(uuid "c14107f7-70be-4819-839e-f560fd2cd931")
+		)
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/3d3c5c24-9aef-4b77-8daf-1752d43b95dd"
+					(reference "J10")
 					(unit 1)
 				)
 			)

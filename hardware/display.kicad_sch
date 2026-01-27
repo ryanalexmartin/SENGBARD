@@ -8,7 +8,7 @@
 		(date "2025-01-26")
 	)
 	(lib_symbols
-		(symbol "Connector_Generic:Conn_01x04"
+		(symbol "Conn_01x04_1"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -50,7 +50,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" ""
+			(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
 				(at 0 0 0)
 				(effects
 					(font
@@ -59,7 +59,25 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_01x04_1_1"
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Conn_01x04_1_1_1"
 				(rectangle
 					(start -1.27 3.81)
 					(end 1.27 -6.35)
@@ -69,6 +87,50 @@
 					)
 					(fill
 						(type background)
+					)
+				)
+				(rectangle
+					(start -1.27 2.667)
+					(end 0 2.413)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -4.953)
+					(end 0 -5.207)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
 					)
 				)
 				(pin passive line
@@ -582,6 +644,7 @@
 		)
 	)
 	(symbol
+		(lib_name "Conn_01x04_1")
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 154.94 93.98 0)
 		(unit 1)
@@ -589,21 +652,24 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e0000001-0000-0000-0000-000000000001")
+		(fields_autoplaced yes)
+		(uuid "f0db2294-2c68-4c61-99cf-8069c948e0a3")
 		(property "Reference" "J9"
-			(at 154.94 84.98 0)
+			(at 157.48 93.9799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "OLED"
-			(at 154.94 103.98 0)
+			(at 157.48 96.5199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -624,28 +690,29 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 154.94 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(pin "1"
-			(uuid "e0000001-0000-0000-0001-000000000001")
-		)
-		(pin "2"
-			(uuid "e0000001-0000-0000-0001-000000000002")
+		(pin "4"
+			(uuid "2bc141b7-92ab-43b0-a96c-8da9489b4357")
 		)
 		(pin "3"
-			(uuid "e0000001-0000-0000-0001-000000000003")
+			(uuid "fe51a579-d346-4429-9413-3905f250bfc8")
 		)
-		(pin "4"
-			(uuid "e0000001-0000-0000-0001-000000000004")
+		(pin "2"
+			(uuid "0864660a-9311-46c2-8f57-8726e5aca689")
+		)
+		(pin "1"
+			(uuid "4d1b6319-6050-4a8e-837b-4910aa12d64c")
 		)
 		(instances
-			(project "sengbard"
+			(project ""
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/31fc420d-f921-43e0-8f58-c12b1db1de7b"
 					(reference "J9")
 					(unit 1)

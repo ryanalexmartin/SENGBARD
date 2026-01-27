@@ -8,9 +8,10 @@
 		(date "2025-01-26")
 	)
 	(lib_symbols
-		(symbol "Device:Rotary_Encoder"
+		(symbol "Device:RotaryEncoder"
 			(pin_names
 				(offset 0.254)
+				(hide yes)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -23,7 +24,7 @@
 					)
 				)
 			)
-			(property "Value" "Rotary_Encoder"
+			(property "Value" "RotaryEncoder"
 				(at 0 -6.604 0)
 				(effects
 					(font
@@ -41,6 +42,15 @@
 				)
 			)
 			(property "Datasheet" "~"
+				(at 0 6.604 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Rotary encoder, dual channel, incremental quadrate outputs"
 				(at 0 0 0)
 				(effects
 					(font
@@ -49,7 +59,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" ""
+			(property "ki_keywords" "rotary switch encoder"
 				(at 0 0 0)
 				(effects
 					(font
@@ -58,9 +68,18 @@
 					(hide yes)
 				)
 			)
-			(symbol "Rotary_Encoder_0_1"
+			(property "ki_fp_filters" "RotaryEncoder*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "RotaryEncoder_0_1"
 				(rectangle
-					(start -5.08 5.588)
+					(start -5.08 5.08)
 					(end 5.08 -5.08)
 					(stroke
 						(width 0.254)
@@ -72,7 +91,7 @@
 				)
 				(polyline
 					(pts
-						(xy -2.032 0) (xy -3.048 0) (xy -3.048 5.08) (xy -5.08 5.08)
+						(xy -5.08 2.54) (xy -3.81 2.54) (xy -3.81 2.032)
 					)
 					(stroke
 						(width 0)
@@ -82,12 +101,12 @@
 						(type none)
 					)
 				)
-				(arc
-					(start 0.381 1.524)
-					(mid 1.1756 0.0035)
-					(end 0.381 -1.524)
+				(polyline
+					(pts
+						(xy -5.08 0) (xy -3.81 0) (xy -3.81 -1.016) (xy -3.302 -2.032)
+					)
 					(stroke
-						(width 0.254)
+						(width 0)
 						(type default)
 					)
 					(fill
@@ -96,7 +115,19 @@
 				)
 				(polyline
 					(pts
-						(xy 0 2.032) (xy 0 3.048) (xy -5.08 3.048) (xy -5.08 2.54)
+						(xy -5.08 -2.54) (xy -3.81 -2.54) (xy -3.81 -2.032)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -4.318 0) (xy -3.81 0) (xy -3.81 1.016) (xy -3.302 2.032)
 					)
 					(stroke
 						(width 0)
@@ -107,8 +138,20 @@
 					)
 				)
 				(circle
-					(center 0 0)
-					(radius 2.032)
+					(center -3.81 0)
+					(radius 0.254)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -1.778) (xy -0.635 1.778)
+					)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -117,10 +160,9 @@
 						(type none)
 					)
 				)
-				(arc
-					(start -0.381 -1.524)
-					(mid -1.1756 -0.0035)
-					(end -0.381 1.524)
+				(circle
+					(center -0.381 0)
+					(radius 1.905)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -131,10 +173,58 @@
 				)
 				(polyline
 					(pts
-						(xy 2.032 0) (xy 3.048 0) (xy 3.048 5.08) (xy 5.08 5.08)
+						(xy -0.381 -1.778) (xy -0.381 1.778)
 					)
 					(stroke
-						(width 0)
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -0.381 -2.794)
+					(mid -3.0988 -0.0635)
+					(end -0.381 2.667)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.127 1.778) (xy -0.127 -1.778)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 2.921) (xy -0.508 2.667) (xy 0.127 2.286)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 -3.048) (xy -0.508 -2.794) (xy 0.127 -2.413)
+					)
+					(stroke
+						(width 0.254)
 						(type default)
 					)
 					(fill
@@ -142,9 +232,9 @@
 					)
 				)
 			)
-			(symbol "Rotary_Encoder_1_1"
+			(symbol "RotaryEncoder_1_1"
 				(pin passive line
-					(at -7.62 5.08 0)
+					(at -7.62 2.54 0)
 					(length 2.54)
 					(name "A"
 						(effects
@@ -162,7 +252,7 @@
 					)
 				)
 				(pin passive line
-					(at -7.62 2.54 0)
+					(at -7.62 0 0)
 					(length 2.54)
 					(name "C"
 						(effects
@@ -180,7 +270,7 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 5.08 180)
+					(at -7.62 -2.54 0)
 					(length 2.54)
 					(name "B"
 						(effects
@@ -1172,7 +1262,7 @@
 	)
 	(text "DIV"
 		(exclude_from_sim no)
-		(at 235.966 57.912 0)
+		(at 247.904 71.628 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1193,7 +1283,7 @@
 	)
 	(text "DIR"
 		(exclude_from_sim no)
-		(at 255.27 57.404 0)
+		(at 271.018 72.39 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1203,7 +1293,7 @@
 	)
 	(text "STP"
 		(exclude_from_sim no)
-		(at 217.17 58.166 0)
+		(at 226.822 71.882 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1677,6 +1767,16 @@
 	)
 	(wire
 		(pts
+			(xy 252.73 73.66) (xy 256.54 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0694ddb9-6785-4eac-9954-4f1ffb2310a1")
+	)
+	(wire
+		(pts
 			(xy 167.64 125.73) (xy 167.64 128.27)
 		)
 		(stroke
@@ -1734,16 +1834,6 @@
 			(type default)
 		)
 		(uuid "0f91fa2d-36ac-4395-95a1-30d62cf72b08")
-	)
-	(wire
-		(pts
-			(xy 262.89 66.04) (xy 262.89 128.27)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1541146c-7551-44e1-95f0-32a51d2775c8")
 	)
 	(wire
 		(pts
@@ -1857,16 +1947,6 @@
 	)
 	(wire
 		(pts
-			(xy 208.28 83.82) (xy 208.28 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "224b41ad-6b36-44c1-85e7-9c4ceb85fca0")
-	)
-	(wire
-		(pts
 			(xy 180.34 78.74) (xy 180.34 81.28)
 		)
 		(stroke
@@ -1874,26 +1954,6 @@
 			(type default)
 		)
 		(uuid "2283b371-abcb-40b5-8f64-0586b3c967d4")
-	)
-	(wire
-		(pts
-			(xy 228.6 66.04) (xy 226.06 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "22901898-1e64-494d-95a0-ac8b825bbac2")
-	)
-	(wire
-		(pts
-			(xy 227.33 68.58) (xy 228.6 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "23970e59-0763-4cc3-a11f-a2784566b7ce")
 	)
 	(wire
 		(pts
@@ -1977,16 +2037,6 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 66.04) (xy 209.55 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "30b1f526-fc8b-4428-9075-027ed7417197")
-	)
-	(wire
-		(pts
 			(xy 190.5 125.73) (xy 190.5 138.43)
 		)
 		(stroke
@@ -1994,16 +2044,6 @@
 			(type default)
 		)
 		(uuid "30f4a343-fd5b-45c5-b8d7-547e2dc3f9a9")
-	)
-	(wire
-		(pts
-			(xy 124.46 50.8) (xy 227.33 50.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3161a44f-5a09-4d7d-a42c-e2255f3d5c44")
 	)
 	(wire
 		(pts
@@ -2064,6 +2104,16 @@
 			(type default)
 		)
 		(uuid "3d09b7bb-f85f-44fc-a2c7-cb1240b6d230")
+	)
+	(wire
+		(pts
+			(xy 252.73 73.66) (xy 252.73 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3d2792ce-5b3e-4fbd-a3be-e891acbf8673")
 	)
 	(wire
 		(pts
@@ -2157,6 +2207,16 @@
 	)
 	(wire
 		(pts
+			(xy 208.28 73.66) (xy 208.28 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49d43ac7-a76e-4143-804a-f784901a9401")
+	)
+	(wire
+		(pts
 			(xy 54.61 74.93) (xy 66.04 74.93)
 		)
 		(stroke
@@ -2214,6 +2274,16 @@
 			(type default)
 		)
 		(uuid "4f39b43f-3b10-474b-957e-d948de5550ce")
+	)
+	(wire
+		(pts
+			(xy 233.68 71.12) (xy 232.41 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "520fed7b-9944-4bc9-ae05-d8102a6112ae")
 	)
 	(wire
 		(pts
@@ -2307,7 +2377,7 @@
 	)
 	(wire
 		(pts
-			(xy 245.11 66.04) (xy 245.11 116.84)
+			(xy 251.46 68.58) (xy 251.46 116.84)
 		)
 		(stroke
 			(width 0)
@@ -2387,27 +2457,17 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 49.53) (xy 207.01 49.53)
+			(xy 231.14 73.66) (xy 233.68 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6bdea4b7-a95e-402d-89e5-9724cfd21ffc")
+		(uuid "6b62a594-7955-4328-90e3-c71b0ef4a0f1")
 	)
 	(wire
 		(pts
-			(xy 224.79 66.04) (xy 224.79 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6cdd40c6-8fe0-4c6a-8a19-565128a7b722")
-	)
-	(wire
-		(pts
-			(xy 193.04 68.58) (xy 205.74 68.58)
+			(xy 193.04 68.58) (xy 212.09 68.58)
 		)
 		(stroke
 			(width 0)
@@ -2487,7 +2547,7 @@
 	)
 	(wire
 		(pts
-			(xy 193.04 116.84) (xy 245.11 116.84)
+			(xy 193.04 116.84) (xy 251.46 116.84)
 		)
 		(stroke
 			(width 0)
@@ -2517,13 +2577,23 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 92.71) (xy 193.04 92.71)
+			(xy 229.87 92.71) (xy 193.04 92.71)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "74bd4526-64cc-41ca-ade2-1ac60cc7f334")
+	)
+	(wire
+		(pts
+			(xy 232.41 71.12) (xy 232.41 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74ed60d7-746e-415d-9610-f078ec619baa")
 	)
 	(wire
 		(pts
@@ -2534,6 +2604,26 @@
 			(type default)
 		)
 		(uuid "762301e1-9195-41cc-92e6-28a66eebf09a")
+	)
+	(wire
+		(pts
+			(xy 208.28 73.66) (xy 212.09 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "76b8283b-3c00-44a0-806c-0cf8af3b8cf8")
+	)
+	(wire
+		(pts
+			(xy 212.09 71.12) (xy 210.82 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78ae47e5-993a-4b70-b531-10b902b5b2c0")
 	)
 	(wire
 		(pts
@@ -2567,16 +2657,6 @@
 	)
 	(wire
 		(pts
-			(xy 209.55 68.58) (xy 207.01 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7e96a054-454e-4ba7-8ba9-924e7cb65e6b")
-	)
-	(wire
-		(pts
 			(xy 180.34 92.71) (xy 167.64 92.71)
 		)
 		(stroke
@@ -2584,16 +2664,6 @@
 			(type default)
 		)
 		(uuid "80a434a9-f0b5-4ca5-8af9-08eae7bd935e")
-	)
-	(wire
-		(pts
-			(xy 227.33 50.8) (xy 227.33 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "81d8a47b-54e3-46e5-8b5f-3f8b93a4b48b")
 	)
 	(wire
 		(pts
@@ -2647,13 +2717,13 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 49.53) (xy 207.01 68.58)
+			(xy 254 71.12) (xy 254 52.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "87cf1f0c-327a-4194-b80d-7e0db9219ef6")
+		(uuid "89ac073d-7881-4d73-a16a-71a1429172c6")
 	)
 	(wire
 		(pts
@@ -2697,7 +2767,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 52.07) (xy 246.38 52.07)
+			(xy 125.73 52.07) (xy 254 52.07)
 		)
 		(stroke
 			(width 0)
@@ -2724,6 +2794,16 @@
 			(type default)
 		)
 		(uuid "8f1252a7-6684-43c2-ba69-f4290d9c6caf")
+	)
+	(wire
+		(pts
+			(xy 229.87 68.58) (xy 229.87 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "90e05c3b-673e-46ac-87ce-3357d5e935f2")
 	)
 	(wire
 		(pts
@@ -2877,16 +2957,6 @@
 	)
 	(wire
 		(pts
-			(xy 246.38 68.58) (xy 247.65 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9fc0f709-5970-48e2-be05-96ec2337404c")
-	)
-	(wire
-		(pts
 			(xy 134.62 102.87) (xy 101.6 102.87)
 		)
 		(stroke
@@ -2904,16 +2974,6 @@
 			(type default)
 		)
 		(uuid "a316d319-5e30-4de0-a20c-f7510c5ae851")
-	)
-	(wire
-		(pts
-			(xy 224.79 83.82) (xy 208.28 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a780758a-92da-4f72-af36-ef9b2bfa2e57")
 	)
 	(wire
 		(pts
@@ -3027,7 +3087,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 105.41) (xy 193.04 105.41)
+			(xy 231.14 105.41) (xy 193.04 105.41)
 		)
 		(stroke
 			(width 0)
@@ -3077,16 +3137,6 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 66.04) (xy 205.74 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bbe65584-04ca-4840-8525-2cbb662c2bf7")
-	)
-	(wire
-		(pts
 			(xy 180.34 68.58) (xy 193.04 68.58)
 		)
 		(stroke
@@ -3107,6 +3157,16 @@
 	)
 	(wire
 		(pts
+			(xy 210.82 71.12) (xy 210.82 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3edf579-0216-41fe-889f-5c2b74967661")
+	)
+	(wire
+		(pts
 			(xy 60.96 92.71) (xy 60.96 90.17)
 		)
 		(stroke
@@ -3114,6 +3174,16 @@
 			(type default)
 		)
 		(uuid "c573a66e-4282-4b34-b230-2afc0499212b")
+	)
+	(wire
+		(pts
+			(xy 123.19 49.53) (xy 210.82 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c5dc995e-4e43-4329-b966-b9ec67930361")
 	)
 	(wire
 		(pts
@@ -3134,6 +3204,16 @@
 			(type default)
 		)
 		(uuid "c6a3c0c8-2d7f-4602-b020-290a5e8e052b")
+	)
+	(wire
+		(pts
+			(xy 256.54 71.12) (xy 254 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6d1052a-ef5b-482d-a950-35d851ec8acf")
 	)
 	(wire
 		(pts
@@ -3167,16 +3247,6 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 66.04) (xy 245.11 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d0609b02-df43-40ad-b0e2-1e1df09e1f3a")
-	)
-	(wire
-		(pts
 			(xy 180.34 114.3) (xy 180.34 116.84)
 		)
 		(stroke
@@ -3207,7 +3277,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 128.27) (xy 262.89 128.27)
+			(xy 180.34 128.27) (xy 252.73 128.27)
 		)
 		(stroke
 			(width 0)
@@ -3287,16 +3357,6 @@
 	)
 	(wire
 		(pts
-			(xy 246.38 52.07) (xy 246.38 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d866cbda-3cbf-4fba-8200-0ded708a26dd")
-	)
-	(wire
-		(pts
 			(xy 133.35 78.74) (xy 140.97 78.74)
 		)
 		(stroke
@@ -3334,6 +3394,26 @@
 			(type default)
 		)
 		(uuid "df6d7f2a-edf0-4715-ae3f-6d1201ec3f83")
+	)
+	(wire
+		(pts
+			(xy 231.14 73.66) (xy 231.14 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "df936e20-94c8-49e1-b13d-cb278aed90dc")
+	)
+	(wire
+		(pts
+			(xy 124.46 50.8) (xy 232.41 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e0f01d7a-dc4b-4d9e-8d5c-5165f3bf44f8")
 	)
 	(wire
 		(pts
@@ -3427,6 +3507,26 @@
 	)
 	(wire
 		(pts
+			(xy 251.46 68.58) (xy 256.54 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e82f583a-4c4b-4508-86d1-5977de595913")
+	)
+	(wire
+		(pts
+			(xy 233.68 68.58) (xy 229.87 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f246eb1c-e68e-4436-b83d-d4886b7bfd71")
+	)
+	(wire
+		(pts
 			(xy 119.38 80.01) (xy 119.38 45.72)
 		)
 		(stroke
@@ -3454,16 +3554,6 @@
 			(type default)
 		)
 		(uuid "f6994a94-3d6c-4ae0-a4fb-ad529e5eef4d")
-	)
-	(wire
-		(pts
-			(xy 226.06 66.04) (xy 226.06 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f7966eda-f9b3-436e-a3d0-5b4990f8037e")
 	)
 	(wire
 		(pts
@@ -3504,16 +3594,6 @@
 			(type default)
 		)
 		(uuid "fe6d977b-ab01-43cb-a213-23fe7e0bbdb0")
-	)
-	(wire
-		(pts
-			(xy 243.84 66.04) (xy 243.84 105.41)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fe879091-09dd-4816-a08c-56ec2bf24432")
 	)
 	(wire
 		(pts
@@ -3763,6 +3843,78 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:RotaryEncoder")
+		(at 264.16 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1102e2c9-aaba-48c7-b5a9-675e3135c2ee")
+		(property "Reference" "SW49"
+			(at 259.588 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RotaryEncoder"
+			(at 259.588 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Alps_EC12E_Vertical_H20mm_CircularMountingHoles"
+			(at 260.35 67.056 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 264.16 64.516 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Rotary encoder, dual channel, incremental quadrate outputs"
+			(at 264.16 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "A"
+			(uuid "8caf85ea-a9bc-44a4-a1f2-4074fb89bdbf")
+		)
+		(pin "C"
+			(uuid "31ba9786-5ad5-4284-bf77-4817efee9477")
+		)
+		(pin "B"
+			(uuid "8cefb7dd-e0de-4df2-ad4c-72e560b822ec")
+		)
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
+					(reference "SW49")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Switch:SW_Push")
 		(at 172.72 138.43 0)
 		(unit 1)
@@ -3960,6 +4112,78 @@
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
 					(reference "#PWR037")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:RotaryEncoder")
+		(at 219.71 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "34e335fd-7483-4b36-9902-0670f1652b75")
+		(property "Reference" "SW47"
+			(at 215.392 61.722 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RotaryEncoder"
+			(at 215.392 64.262 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Alps_EC12E_Vertical_H20mm_CircularMountingHoles"
+			(at 215.9 67.056 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 219.71 64.516 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Rotary encoder, dual channel, incremental quadrate outputs"
+			(at 219.71 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "A"
+			(uuid "cd9b554d-08e2-4a70-a7d1-07e73e98f9a0")
+		)
+		(pin "C"
+			(uuid "d1b40304-846c-4381-a7d3-be51189a584e")
+		)
+		(pin "B"
+			(uuid "f1608a1c-d573-428d-bd4d-07928214ae1e")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
+					(reference "SW47")
 					(unit 1)
 				)
 			)
@@ -5473,75 +5697,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:Rotary_Encoder")
-		(at 255.27 71.12 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "abfc85c1-b02f-4a57-af8e-aa9aee294e67")
-		(property "Reference" "SW49"
-			(at 255.27 62.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "EC11"
-			(at 255.27 79.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
-			(at 255.27 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 255.27 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 255.27 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "A"
-			(uuid "e22c8312-c635-4451-86f4-0a9e54101d02")
-		)
-		(pin "B"
-			(uuid "2343a778-d89b-4f30-8bd6-ac2cd640aa56")
-		)
-		(pin "C"
-			(uuid "00b4a7ca-cc50-4cc6-9acd-0c90018882a8")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
-					(reference "SW49")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Switch:SW_Push")
 		(at 147.32 66.04 0)
 		(unit 1)
@@ -5738,144 +5893,6 @@
 			(project ""
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
 					(reference "#PWR034")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:Rotary_Encoder")
-		(at 236.22 71.12 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c4805d3d-a3dc-44ed-a869-e06817207b77")
-		(property "Reference" "SW48"
-			(at 236.22 62.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "EC11"
-			(at 236.22 79.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
-			(at 236.22 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 236.22 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 236.22 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "A"
-			(uuid "4afaa04d-4bba-4501-a430-eebec5cfa672")
-		)
-		(pin "B"
-			(uuid "9323c3d4-a1b4-4956-9a19-099f257ec1f0")
-		)
-		(pin "C"
-			(uuid "02d55df8-a8a7-4dc3-81cc-0a012bbb8d2d")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
-					(reference "SW48")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:Rotary_Encoder")
-		(at 217.17 71.12 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c4eaf2da-9068-40e8-897b-6244b0284d2a")
-		(property "Reference" "SW47"
-			(at 217.17 62.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "EC11"
-			(at 217.17 79.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
-			(at 217.17 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 217.17 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 217.17 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "A"
-			(uuid "57552004-2a2d-4f02-8a91-0dafeffb67e2")
-		)
-		(pin "B"
-			(uuid "02d8d56a-c6d4-4e90-87e7-09d35ac54914")
-		)
-		(pin "C"
-			(uuid "20421a5e-39d9-4ff6-a1fc-47991b6e225e")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
-					(reference "SW47")
 					(unit 1)
 				)
 			)
@@ -6759,6 +6776,78 @@
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
 					(reference "SW23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:RotaryEncoder")
+		(at 241.3 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "fe7bd074-3f72-4154-898a-1fd7464393dc")
+		(property "Reference" "SW48"
+			(at 236.982 61.722 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RotaryEncoder"
+			(at 236.982 64.262 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Alps_EC12E_Vertical_H20mm_CircularMountingHoles"
+			(at 237.49 67.056 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 241.3 64.516 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Rotary encoder, dual channel, incremental quadrate outputs"
+			(at 241.3 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "A"
+			(uuid "750fc3c3-4de8-417e-bc01-20660d1c09b8")
+		)
+		(pin "C"
+			(uuid "a55bcee1-568a-4aad-b555-9faa9bdb278e")
+		)
+		(pin "B"
+			(uuid "321eaf5c-bee7-4d6b-be03-9544df45da01")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/c7333f3f-0111-4ce1-8877-4c70f8a7a043"
+					(reference "SW48")
 					(unit 1)
 				)
 			)

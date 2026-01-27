@@ -12,11 +12,132 @@
 		(comment 2 "3.3V PWM scaled to 0-10V CV output")
 	)
 	(lib_symbols
-		(symbol "Connector:AudioJack2"
-			(pin_names
-				(offset 1.016)
+		(symbol "+12V_1"
+			(power)
+			(pin_numbers
 				(hide yes)
 			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "+12V"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"+12V\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "+12V_1_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "+12V_1_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Connector_Audio:AudioJack2"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -54,7 +175,25 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Audio Jack, 2 Poles (Active Tip)"
+			(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "audio jack receptacle mono phone headphone TS connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Jack*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -65,14 +204,25 @@
 			)
 			(symbol "AudioJack2_0_1"
 				(rectangle
-					(start -3.81 -2.54)
-					(end -2.54 0)
+					(start -3.81 0)
+					(end -2.54 -2.54)
 					(stroke
 						(width 0.254)
 						(type default)
 					)
 					(fill
 						(type outline)
+					)
+				)
+				(rectangle
+					(start -2.54 3.81)
+					(end 2.54 -2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
 					)
 				)
 				(polyline
@@ -87,20 +237,9 @@
 						(type none)
 					)
 				)
-				(rectangle
-					(start 2.54 3.81)
-					(end -3.81 -2.54)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
 				(polyline
 					(pts
-						(xy 2.54 2.54) (xy -1.27 2.54) (xy -1.27 0) (xy -2.54 0)
+						(xy 2.54 2.54) (xy -0.635 2.54) (xy -0.635 0) (xy -1.27 -0.635) (xy -1.905 0)
 					)
 					(stroke
 						(width 0.254)
@@ -574,112 +713,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Device:R"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "R"
-				(at 2.032 0 90)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "R"
-				(at 0 0 90)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at -1.778 0 90)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Resistor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "R_0_1"
-				(rectangle
-					(start -1.016 -2.54)
-					(end 1.016 2.54)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "R_1_1"
-				(pin passive line
-					(at 0 3.81 270)
-					(length 1.27)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -3.81 90)
-					(length 1.27)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "GND_1"
 			(power)
 			(pin_numbers
@@ -771,6 +804,557 @@
 						)
 					)
 					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "GND_2"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_2_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_2_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "GND_3"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_3_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_3_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "GND_4"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_4_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_4_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "R_1"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_1_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_1_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "R_2"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_2_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_2_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1161,7 +1745,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:+12V"
+		(symbol "power:-12V"
 			(power)
 			(pin_numbers
 				(hide yes)
@@ -1182,124 +1766,8 @@
 					(hide yes)
 				)
 			)
-			(property "Value" "+12V"
-				(at 0 3.556 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+12V\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "+12V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+12V_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "power:-12V"
-			(power)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
 			(property "Value" "-12V"
-				(at 0 -3.556 0)
+				(at 0 3.556 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1333,153 +1801,46 @@
 					(hide yes)
 				)
 			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "-12V_0_0"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
 			(symbol "-12V_0_1"
 				(polyline
 					(pts
-						(xy -0.762 -1.27) (xy 0 -2.54)
+						(xy 0 0) (xy 0 1.27) (xy 0.762 1.27) (xy 0 2.54) (xy -0.762 1.27) (xy 0 1.27)
 					)
 					(stroke
 						(width 0)
 						(type default)
 					)
 					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 -2.54) (xy 0.762 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "-12V_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "power:GND"
-			(power)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "GND"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"GND\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "GND_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "GND_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
+						(type outline)
 					)
 				)
 			)
@@ -1573,22 +1934,10 @@
 		(uuid "d3b64a40-0aa6-4528-9fe2-bea8f4738452")
 	)
 	(junction
-		(at 179.07 106.68)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "dc0edf6c-2dd1-439a-b74a-278ceebcd805")
-	)
-	(junction
 		(at 83.82 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "dd929da7-afc3-4ead-b4b8-aad1b0f34ec4")
-	)
-	(junction
-		(at 179.07 85.09)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e50b5602-fecc-4f0a-8e17-c2bae7bd99c1")
 	)
 	(junction
 		(at 85.09 147.32)
@@ -1756,16 +2105,6 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 106.68) (xy 179.07 106.68)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3bd3c01d-4c46-4db3-b63d-c77591efd965")
-	)
-	(wire
-		(pts
 			(xy 78.74 68.58) (xy 77.47 68.58)
 		)
 		(stroke
@@ -1866,23 +2205,13 @@
 	)
 	(wire
 		(pts
-			(xy 87.63 121.92) (xy 83.82 121.92)
+			(xy 91.44 121.92) (xy 83.82 121.92)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "5ef32694-7fae-4e52-b308-eb0fb60e3ed5")
-	)
-	(wire
-		(pts
-			(xy 179.07 85.09) (xy 185.42 85.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5fd2d7be-0a5a-442d-a388-9d63af0e546c")
 	)
 	(wire
 		(pts
@@ -1936,7 +2265,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 121.92) (xy 106.68 121.92)
+			(xy 99.06 121.92) (xy 106.68 121.92)
 		)
 		(stroke
 			(width 0)
@@ -1986,7 +2315,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 106.68) (xy 168.91 106.68)
+			(xy 154.94 106.68) (xy 165.1 106.68)
 		)
 		(stroke
 			(width 0)
@@ -2016,7 +2345,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 106.68) (xy 179.07 106.68)
+			(xy 175.26 106.68) (xy 185.42 106.68)
 		)
 		(stroke
 			(width 0)
@@ -2033,6 +2362,16 @@
 			(type default)
 		)
 		(uuid "a083638f-5982-477b-bb9b-6a98a603d959")
+	)
+	(wire
+		(pts
+			(xy 173.99 85.09) (xy 185.42 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0dc820a-e4f2-48e5-b887-bfa6c96a345a")
 	)
 	(wire
 		(pts
@@ -2166,17 +2505,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 85.09) (xy 179.07 85.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e4e1f070-f263-4187-b3ed-876279e7ea39")
-	)
-	(wire
-		(pts
-			(xy 154.94 85.09) (xy 168.91 85.09)
+			(xy 154.94 85.09) (xy 163.83 85.09)
 		)
 		(stroke
 			(width 0)
@@ -2518,33 +2847,35 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:AudioJack2")
-		(at 127 106.68 0)
-		(mirror y)
+		(lib_name "GND_4")
+		(lib_id "power:GND")
+		(at 118.11 137.16 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "237cbfbf-abd9-4e59-9185-e98133e4fe94")
-		(property "Reference" "J8"
-			(at 127 116.22 0)
+		(fields_autoplaced yes)
+		(uuid "16b4f018-34f6-4082-9530-8c3bbd6e6e42")
+		(property "Reference" "#PWR014"
+			(at 118.11 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 118.11 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "CV_OUT_T2"
-			(at 127 114.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
-			(at 127 106.68 0)
+		(property "Footprint" ""
+			(at 118.11 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2553,7 +2884,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 127 106.68 0)
+			(at 118.11 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2561,8 +2892,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Track 2 CV output jack"
-			(at 127 106.68 0)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 118.11 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2570,16 +2901,286 @@
 				(hide yes)
 			)
 		)
-		(pin "S"
-			(uuid "e5b13ed4-ac20-4a26-b0f6-652e327e35db")
+		(pin "1"
+			(uuid "1eb1783e-5357-4d53-9862-fc3612031dd7")
 		)
-		(pin "T"
-			(uuid "2a3cd869-c528-4214-b9ad-827ec8818f82")
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "#PWR014")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_2")
+		(lib_id "power:GND")
+		(at 78.74 166.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1b21ceb4-c859-44fa-a481-7c71601d65b9")
+		(property "Reference" "#PWR012"
+			(at 78.74 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 78.74 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 78.74 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 78.74 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 78.74 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3eec63c1-ef8d-430b-baad-a1e7b8c3aa6d")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "J8")
+					(reference "#PWR012")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "R_2")
+		(lib_id "Device:R")
+		(at 86.36 78.74 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1ecc88d9-11c8-481e-9743-43ab106bf184")
+		(property "Reference" "R14"
+			(at 86.36 73.914 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "20k"
+			(at 86.36 76.454 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 86.36 80.518 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 86.36 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 86.36 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "b6630c31-4cf4-4a5b-9551-2715cbc2a8b5")
+		)
+		(pin "1"
+			(uuid "e331ac18-fc54-49ac-ad92-99eb45618fa1")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "R_2")
+		(lib_id "Device:R")
+		(at 76.2 118.11 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2156b181-52b4-4ecb-a76c-40136eec3047")
+		(property "Reference" "R12"
+			(at 78.74 116.8399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 78.74 119.3799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 74.422 118.11 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 76.2 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 76.2 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "b1915166-5d75-4548-bcd1-162cfd8b7bef")
+		)
+		(pin "1"
+			(uuid "bf7d7f80-3be8-4349-95e6-d332b9bb368a")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_2")
+		(lib_id "power:GND")
+		(at 76.2 125.73 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "21e4290b-ab4c-404a-8c19-07658dfcd5e4")
+		(property "Reference" "#PWR013"
+			(at 76.2 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 76.2 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 76.2 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 76.2 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 76.2 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4c575e64-c3fd-41b3-803a-b06e05cf1b19")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -2725,16 +3326,18 @@
 		)
 	)
 	(symbol
+		(lib_name "GND_2")
 		(lib_id "power:GND")
-		(at 78.74 166.37 0)
+		(at 69.85 82.55 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "29d0e8e6-0802-419b-bb23-576ad913a314")
-		(property "Reference" "#PWR012"
-			(at 78.74 172.64 0)
+		(fields_autoplaced yes)
+		(uuid "2ba04cef-ea09-4a15-8b8b-273ec3a1b02d")
+		(property "Reference" "#PWR03"
+			(at 69.85 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2743,7 +3346,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 78.74 170.35 0)
+			(at 69.85 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2751,7 +3354,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 78.74 166.37 0)
+			(at 69.85 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2760,7 +3363,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 78.74 166.37 0)
+			(at 69.85 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2768,8 +3371,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 78.74 166.37 0)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 69.85 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2778,171 +3381,37 @@
 			)
 		)
 		(pin "1"
-			(uuid "725a2a51-32bb-437a-b71b-9ff0f8dff1e6")
+			(uuid "1994414d-949a-4a4a-9660-106a4ddbbda7")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR012")
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
+		(lib_name "R_1")
 		(lib_id "Device:R")
-		(at 69.85 73.66 0)
+		(at 111.76 144.78 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "341ebb27-e9a8-4fc4-b47b-cb74cc0a0606")
-		(property "Reference" "R11"
-			(at 73.85 73.39 0)
+		(uuid "37688348-957c-4f80-9ecf-77caf2d4cf46")
+		(property "Reference" "R23"
+			(at 111.76 140.208 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "10k"
-			(at 73.85 76.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 69.85 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 69.85 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Gain resistor (Rg) - Track 1"
-			(at 69.85 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1503333a-17f7-4dca-a9fc-6cd58713d89a")
-		)
-		(pin "2"
-			(uuid "6f957113-42cb-464f-aa4e-b03f3202ca76")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 106.68 66.04 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "45f5f4d3-7850-458e-8dd7-b1afbbefa5dd")
-		(property "Reference" "R22"
-			(at 106.68 63.754 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100"
-			(at 106.68 69.04 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 106.68 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 106.68 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Output protection - Track 1"
-			(at 106.68 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "92844bfc-7af1-4e23-a8ad-2fa61de0e91b")
-		)
-		(pin "2"
-			(uuid "77ccaa22-7670-4322-bcec-fe9b6a587ea3")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R22")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 190.5 95.25 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "53c58ead-327b-4997-bbc1-9307fd7977e0")
-		(property "Reference" "#PWR018"
-			(at 196.77 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 194.48 95.25 0)
+		(property "Value" "100R"
+			(at 111.76 142.748 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2950,7 +3419,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 95.25 0)
+			(at 111.76 146.558 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2958,8 +3427,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 190.5 95.25 0)
+		(property "Datasheet" "~"
+			(at 111.76 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2967,8 +3436,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 190.5 95.25 0)
+		(property "Description" "Resistor"
+			(at 111.76 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2977,18 +3446,22 @@
 			)
 		)
 		(pin "1"
-			(uuid "45dff3cf-3c3c-4397-ae18-505b1e75da38")
+			(uuid "9a45b457-b5e0-42f9-a98e-b935265ba8fe")
+		)
+		(pin "2"
+			(uuid "9b1dcaab-0d23-42fb-b287-ce499b8d89b1")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR018")
+					(reference "R23")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
+		(lib_name "+12V_1")
 		(lib_id "power:+12V")
 		(at 154.94 82.55 0)
 		(unit 1)
@@ -2996,8 +3469,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "60a9baaa-4f90-47d4-8ff3-64a4c7397b9b")
-		(property "Reference" "#PWR016"
+		(fields_autoplaced yes)
+		(uuid "457e3b51-3bd8-4911-a810-f1e771f14ec6")
+		(property "Reference" "#PWR071"
 			(at 154.94 86.36 0)
 			(effects
 				(font
@@ -3007,7 +3481,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 154.94 78.67 0)
+			(at 154.94 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3032,7 +3506,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"+12V\""
 			(at 154.94 82.55 0)
 			(effects
 				(font
@@ -3042,7 +3516,142 @@
 			)
 		)
 		(pin "1"
-			(uuid "d9ba1c05-8665-407a-a7d7-78ba6c69f920")
+			(uuid "82b50f12-4d29-4f5f-80d0-b5c90bbe001d")
+		)
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "#PWR071")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "R_1")
+		(lib_id "Device:R")
+		(at 115.57 106.68 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4a33f082-7a23-44d9-85c2-a8419232a26c")
+		(property "Reference" "R24"
+			(at 115.57 102.108 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100R"
+			(at 115.57 104.648 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 115.57 108.458 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 115.57 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 115.57 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9a9ec4f4-a479-4cec-9830-372c57909ccd")
+		)
+		(pin "2"
+			(uuid "d28a2059-e6b8-4f9f-9948-85eb3e550ab9")
+		)
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_2")
+		(lib_id "power:GND")
+		(at 111.76 59.69 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4a50de0f-bda1-41d9-8663-d4b4d6a17ca6")
+		(property "Reference" "#PWR016"
+			(at 111.76 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 111.76 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 111.76 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 111.76 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 111.76 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1e9c492d-7713-4679-b839-861991577a09")
 		)
 		(instances
 			(project "sengbard"
@@ -3054,13 +3663,152 @@
 		)
 	)
 	(symbol
-		(lib_id "Simulation_SPICE:VPULSE")
-		(at 34.29 76.2 0)
+		(lib_name "GND_3")
+		(lib_id "power:GND")
+		(at 190.5 95.25 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4fa3b611-61ee-46da-af06-5dcb64abc30b")
+		(property "Reference" "#PWR018"
+			(at 196.85 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 194.31 95.2499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 190.5 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 190.5 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 190.5 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b1caeeba-0ff7-4512-8a20-3aed5bd7b04a")
+		)
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "#PWR018")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "R_2")
+		(lib_id "Device:R")
+		(at 69.85 73.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5cc73f4e-0224-4392-b6bd-7e1150c7f89b")
+		(property "Reference" "R11"
+			(at 72.39 72.3899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 72.39 74.9299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 68.072 73.66 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 69.85 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "4046a157-79d7-4fd4-b339-1ec7ad1de333")
+		)
+		(pin "1"
+			(uuid "e5466cdc-24e7-4394-bb95-b6ae8a6d6e34")
+		)
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Simulation_SPICE:VPULSE")
+		(at 34.29 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board no)
+		(dnp yes)
 		(uuid "683ddda6-b121-49b1-a4d7-c972736a78f7")
 		(property "Reference" "V1"
 			(at 24.13 76.0702 90)
@@ -3151,400 +3899,6 @@
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
 					(reference "V1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 69.85 82.55 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "73a58eec-8b8a-4a73-9d5f-8f3b743391a2")
-		(property "Reference" "#PWR03"
-			(at 69.85 88.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 69.85 86.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 69.85 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 69.85 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 69.85 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "afe8d009-125d-44e7-baf1-107bbf249401")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR03")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 118.11 137.16 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "80de7a04-cece-40af-a489-4ae9094761e2")
-		(property "Reference" "#PWR014"
-			(at 118.11 130.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 118.11 133.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 118.11 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 118.11 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 118.11 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "7de3cb01-82cf-472c-ba6f-92d2c7e323dc")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR014")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 111.76 144.78 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "889cf73d-41be-41e4-87e4-a5d919ab8463")
-		(property "Reference" "R23"
-			(at 111.76 140.78 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100R"
-			(at 111.76 147.78 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 111.76 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 111.76 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Output protection - Track 3"
-			(at 111.76 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "61ee721e-107d-4081-9625-04b3c500349e")
-		)
-		(pin "2"
-			(uuid "e1eefd42-1946-4cf9-b3d9-e0279ff3b8e9")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R23")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 120.65 99.06 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "89dad248-6e75-4e4e-915e-71842871aa36")
-		(property "Reference" "#PWR015"
-			(at 120.65 92.79 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 120.65 95.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 120.65 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 120.65 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 120.65 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "20968d7d-b476-4307-9784-00419f757a00")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR015")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:-12V")
-		(at 154.94 109.22 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8a8f2884-0e61-45d3-a7ab-d0ccc0498b0a")
-		(property "Reference" "#PWR017"
-			(at 154.94 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "-12V"
-			(at 154.94 112.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 154.94 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 154.94 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 154.94 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "49e2be02-2f7b-4128-b723-b294b95c305d")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR017")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 86.36 78.74 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a0af23bd-86f8-47b0-8bdb-72086759a668")
-		(property "Reference" "R14"
-			(at 86.36 76.454 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "20K"
-			(at 86.36 81.74 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 86.36 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 86.36 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Feedback resistor (Rf) - Track 1"
-			(at 86.36 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2e7f06ed-9e60-4392-ab93-239443fd30cd")
-		)
-		(pin "2"
-			(uuid "3eb965e3-5479-46cd-9d54-6d57a18ebac4")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R14")
 					(unit 1)
 				)
 			)
@@ -3691,16 +4045,86 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 76.2 125.73 0)
+		(lib_name "R_1")
+		(lib_id "Device:R")
+		(at 106.68 66.04 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "af8300c1-90b9-420b-a48d-4e5a8e6da9a4")
-		(property "Reference" "#PWR011"
-			(at 76.2 132 0)
+		(uuid "ab64d378-5924-4d60-a9f4-26e1abca7409")
+		(property "Reference" "R22"
+			(at 106.68 61.468 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100R"
+			(at 106.68 64.008 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 106.68 67.818 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 106.68 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 106.68 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9c50eb7b-cfeb-4fda-99b9-2cf60252b0aa")
+		)
+		(pin "2"
+			(uuid "8c17831d-8d9b-45d4-ad06-767a4187c08d")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "R22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_2")
+		(lib_id "power:GND")
+		(at 120.65 99.06 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ace4dc9c-5b1d-4abe-8f23-93e6c4e6b796")
+		(property "Reference" "#PWR015"
+			(at 120.65 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3709,7 +4133,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 76.2 129.71 0)
+			(at 120.65 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3717,7 +4141,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 76.2 125.73 0)
+			(at 120.65 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3726,7 +4150,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 76.2 125.73 0)
+			(at 120.65 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3734,8 +4158,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 76.2 125.73 0)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 120.65 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3744,121 +4168,46 @@
 			)
 		)
 		(pin "1"
-			(uuid "df65f94e-8fa5-40a6-b506-a1c1ea25c232")
+			(uuid "bb6b8845-a619-458a-b733-ede2e531b0e5")
 		)
 		(instances
-			(project "sengbard"
+			(project ""
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR011")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Connector:AudioJack2")
-		(at 125.73 144.78 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b1b4d4d1-52ed-45a9-912c-d46cc068907f")
-		(property "Reference" "J7"
-			(at 125.73 154.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "CV_OUT_T3"
-			(at 125.73 152.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
-			(at 125.73 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 125.73 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Track 3 CV output jack"
-			(at 125.73 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "S"
-			(uuid "f377c55d-0e1d-4bb5-828f-18fe6f7e1606")
-		)
-		(pin "T"
-			(uuid "c32b3261-7bf7-45f0-a7e8-c1189eb52090")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "J7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
+		(lib_name "R_2")
 		(lib_id "Device:R")
-		(at 78.74 154.94 0)
+		(at 93.98 156.21 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b5e7c0a8-8064-426e-8dfb-562bc11d2ef7")
-		(property "Reference" "R13"
-			(at 82.74 154.67 0)
+		(fields_autoplaced yes)
+		(uuid "b89efcff-3ef0-41e4-b18b-fb69b2ac4c25")
+		(property "Reference" "R15"
+			(at 93.98 149.86 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "10K"
-			(at 82.74 157.67 0)
+		(property "Value" "20k"
+			(at 93.98 152.4 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 78.74 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 78.74 154.94 0)
+		(property "Footprint" ""
+			(at 93.98 157.988 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3866,8 +4215,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Gain resistor (Rg) - Track 3"
-			(at 78.74 154.94 0)
+		(property "Datasheet" "~"
+			(at 93.98 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3875,16 +4224,25 @@
 				(hide yes)
 			)
 		)
-		(pin "1"
-			(uuid "536dfd9e-f3fc-493c-aea1-f30b3a12de58")
+		(property "Description" "Resistor"
+			(at 93.98 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
 		)
 		(pin "2"
-			(uuid "571e34b9-73eb-4181-a995-9da6aa16f2e6")
+			(uuid "e3eb79fc-2cac-4a6b-845f-dd1f6039735d")
+		)
+		(pin "1"
+			(uuid "bf5e2af5-3446-410a-8ca7-03ef09365435")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R13")
+					(reference "R15")
 					(unit 1)
 				)
 			)
@@ -3892,16 +4250,16 @@
 	)
 	(symbol
 		(lib_id "Simulation_SPICE:VDC")
-		(at 173.99 85.09 90)
+		(at 168.91 85.09 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
+		(in_bom no)
+		(on_board no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "ba276a9a-b137-44ff-95a0-239c0e56e85e")
 		(property "Reference" "V2"
-			(at 173.8602 77.47 90)
+			(at 168.7802 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3909,7 +4267,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 173.8602 80.01 90)
+			(at 168.7802 80.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3917,7 +4275,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 173.99 85.09 0)
+			(at 168.91 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3926,7 +4284,7 @@
 			)
 		)
 		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for"
-			(at 173.99 85.09 0)
+			(at 168.91 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3935,7 +4293,7 @@
 			)
 		)
 		(property "Description" "Voltage source, DC"
-			(at 173.99 85.09 0)
+			(at 168.91 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3944,7 +4302,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=+ 2=-"
-			(at 173.99 85.09 0)
+			(at 168.91 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3953,7 +4311,7 @@
 			)
 		)
 		(property "Sim.Type" "DC"
-			(at 173.99 85.09 0)
+			(at 168.91 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3962,7 +4320,7 @@
 			)
 		)
 		(property "Sim.Device" "V"
-			(at 173.99 85.09 0)
+			(at 168.91 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3987,41 +4345,36 @@
 		)
 	)
 	(symbol
+		(lib_name "R_2")
 		(lib_id "Device:R")
-		(at 91.44 121.92 90)
+		(at 78.74 154.94 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "bcf2f3c3-923d-492e-8e19-a512c7b967d2")
-		(property "Reference" "R15"
-			(at 91.44 119.38 90)
+		(fields_autoplaced yes)
+		(uuid "c1ea5110-50b9-407f-927a-7d5e35141a61")
+		(property "Reference" "R13"
+			(at 81.28 153.6699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "20K"
-			(at 91.44 124.92 90)
+		(property "Value" "10k"
+			(at 81.28 156.2099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 91.44 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 91.44 121.92 0)
+		(property "Footprint" ""
+			(at 76.962 154.94 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4029,8 +4382,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Feedback resistor (Rf) - Track 2"
-			(at 91.44 121.92 0)
+		(property "Datasheet" "~"
+			(at 78.74 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4038,84 +4391,25 @@
 				(hide yes)
 			)
 		)
-		(pin "1"
-			(uuid "04b0c201-f3db-4a42-97fc-de30c4417426")
+		(property "Description" "Resistor"
+			(at 78.74 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
 		)
 		(pin "2"
-			(uuid "217f6f31-82ab-4d1b-8136-35b4e14b6713")
+			(uuid "83fa092f-2085-4ce4-aee4-78f1f4e5f83b")
+		)
+		(pin "1"
+			(uuid "2cd66538-17f7-4020-b027-b99eb5b02740")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R15")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:AudioJack2")
-		(at 120.65 66.04 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c1edb3b9-1692-4667-b523-d4bbd69129f3")
-		(property "Reference" "J6"
-			(at 120.396 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "CV_OUT_T1"
-			(at 121.158 60.198 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
-			(at 120.65 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 120.65 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Track 1 CV output jack"
-			(at 120.65 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "S"
-			(uuid "731b388c-9ba7-4fbb-b1a3-aa1206818660")
-		)
-		(pin "T"
-			(uuid "e58ca089-74ae-4ff6-a7bd-2ec7557abdd4")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "J6")
+					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -4190,16 +4484,16 @@
 	)
 	(symbol
 		(lib_id "Simulation_SPICE:VDC")
-		(at 173.99 106.68 90)
+		(at 170.18 106.68 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
+		(in_bom no)
+		(on_board no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "cd161728-be84-4d84-8edf-1bd53b200435")
 		(property "Reference" "V3"
-			(at 173.8602 99.06 90)
+			(at 170.0502 99.06 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4207,7 +4501,7 @@
 			)
 		)
 		(property "Value" "-12V"
-			(at 173.8602 101.6 90)
+			(at 170.0502 101.6 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4215,7 +4509,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 173.99 106.68 0)
+			(at 170.18 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4224,7 +4518,7 @@
 			)
 		)
 		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for"
-			(at 173.99 106.68 0)
+			(at 170.18 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4233,7 +4527,7 @@
 			)
 		)
 		(property "Description" "Voltage source, DC"
-			(at 173.99 106.68 0)
+			(at 170.18 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4242,7 +4536,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=+ 2=-"
-			(at 173.99 106.68 0)
+			(at 170.18 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4251,7 +4545,7 @@
 			)
 		)
 		(property "Sim.Type" "DC"
-			(at 173.99 106.68 0)
+			(at 170.18 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4260,7 +4554,7 @@
 			)
 		)
 		(property "Sim.Device" "V"
-			(at 173.99 106.68 0)
+			(at 170.18 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4425,159 +4719,26 @@
 		)
 	)
 	(symbol
+		(lib_name "R_2")
 		(lib_id "Device:R")
-		(at 76.2 118.11 0)
+		(at 95.25 121.92 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "d98f6c54-c18f-4ade-96f0-027540804666")
-		(property "Reference" "R12"
-			(at 80.2 117.84 0)
+		(fields_autoplaced yes)
+		(uuid "d612ca8c-0aeb-4f71-8a31-1ddf4d45661f")
+		(property "Reference" "R21"
+			(at 95.25 115.57 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "10K"
-			(at 80.2 120.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 76.2 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 76.2 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Gain resistor (Rg) - Track 2"
-			(at 76.2 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8c143b05-433e-49e9-af9e-a2b83f5381f3")
-		)
-		(pin "2"
-			(uuid "cc2c1740-49e5-4862-afc2-bcab54105d4e")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R12")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 115.57 106.68 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "fbf8952d-8c19-4f67-983e-e7d6c9450a93")
-		(property "Reference" "R24"
-			(at 115.57 102.68 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100R"
-			(at 115.57 109.68 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 115.57 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 115.57 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Output protection - Track 2"
-			(at 115.57 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ada1005e-a2cb-4dc9-b6ec-3b6c1dd3affd")
-		)
-		(pin "2"
-			(uuid "5cea334e-f96e-4361-8860-59be287b5cb8")
-		)
-		(instances
-			(project "sengbard"
-				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R24")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 111.76 59.69 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "fd52537c-4621-460c-b922-a70c13142d92")
-		(property "Reference" "#PWR013"
-			(at 111.76 53.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 111.76 55.71 0)
+		(property "Value" "20k"
+			(at 95.25 118.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4585,7 +4746,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 111.76 59.69 0)
+			(at 95.25 123.698 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4593,8 +4754,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 111.76 59.69 0)
+		(property "Datasheet" "~"
+			(at 95.25 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4602,54 +4763,199 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 111.76 59.69 0)
+		(property "Description" "Resistor"
+			(at 95.25 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
+		)
+		(pin "2"
+			(uuid "8a28334d-2081-484c-b3dd-5acfbcf52e85")
 		)
 		(pin "1"
-			(uuid "a8c3e297-a7a5-4bee-895f-6cd6e00f350d")
+			(uuid "bf6eebda-8780-4065-a731-bfd4b72f2c9f")
 		)
 		(instances
 			(project "sengbard"
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "#PWR013")
+					(reference "R21")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 93.98 156.21 270)
+		(lib_id "Connector_Audio:AudioJack2")
+		(at 120.65 63.5 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "fe122a9d-5636-4166-b5f9-d532557508fa")
-		(property "Reference" "R21"
-			(at 93.98 160.21 90)
+		(fields_autoplaced yes)
+		(uuid "dca52418-6e59-4d78-8684-1076926d27ab")
+		(property "Reference" "J6"
+			(at 125.73 62.8649 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "CV_OUT_T1"
+			(at 125.73 65.4049 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 120.65 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 120.65 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+			(at 120.65 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "T"
+			(uuid "385d9b29-7798-4ad9-b08c-bf25dc6399b8")
+		)
+		(pin "S"
+			(uuid "95728086-c127-4be8-8c6f-1545444fd390")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "J6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Audio:AudioJack2")
+		(at 125.73 142.24 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e2bf0281-d677-4321-a3eb-53e613a00485")
+		(property "Reference" "J7"
+			(at 130.81 141.6049 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "CV_OUT_T3"
+			(at 130.81 144.1449 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 125.73 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+			(at 125.73 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "T"
+			(uuid "9a9343a5-d7e1-4729-b7b9-b02562be503d")
+		)
+		(pin "S"
+			(uuid "f8b277d6-06b9-4744-8925-761efb3df901")
+		)
+		(instances
+			(project "sengbard"
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "J7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:-12V")
+		(at 154.94 109.22 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ed885542-f5ac-411c-925c-da46673f30ee")
+		(property "Reference" "#PWR017"
+			(at 154.94 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "-12V"
+			(at 154.94 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "20K"
-			(at 93.98 153.21 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 93.98 156.21 0)
+		(property "Footprint" ""
+			(at 154.94 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4658,7 +4964,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 156.21 0)
+			(at 154.94 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4666,8 +4972,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Feedback resistor (Rf) - Track 3"
-			(at 93.98 156.21 0)
+		(property "Description" "Power symbol creates a global label with name \"-12V\""
+			(at 154.94 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4676,15 +4982,82 @@
 			)
 		)
 		(pin "1"
-			(uuid "9fc0766c-1cbe-4f7e-b922-76597f428e3b")
-		)
-		(pin "2"
-			(uuid "ff866045-edc6-4a49-8bb7-afb534c2e360")
+			(uuid "79791f08-f960-4ac2-9d16-b96cc10ec7d7")
 		)
 		(instances
-			(project "sengbard"
+			(project ""
 				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
-					(reference "R21")
+					(reference "#PWR017")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Audio:AudioJack2")
+		(at 127 104.14 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f7689f52-9190-46b6-ae08-a371c6ec8651")
+		(property "Reference" "J8"
+			(at 132.08 103.5049 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "CV_OUT_T2"
+			(at 132.08 106.0449 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 127 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 127 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Jack, 2 Poles (Mono / TS)"
+			(at 127 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "T"
+			(uuid "b9171031-6d7c-4e2e-936a-73332af05743")
+		)
+		(pin "S"
+			(uuid "25c30426-de90-42f5-931c-14d13d3eb177")
+		)
+		(instances
+			(project ""
+				(path "/e1e5c1f0-1234-5678-9abc-def012345678/121f1782-177a-4d4f-b3bf-6a6cb7c59eb4"
+					(reference "J8")
 					(unit 1)
 				)
 			)
