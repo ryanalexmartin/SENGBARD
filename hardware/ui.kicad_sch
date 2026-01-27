@@ -315,7 +315,7 @@
 			(at 101.6 103.59 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 			(at 101.6 93.59 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -353,7 +353,7 @@
 			(at 115 165 90)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 115 165 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -389,7 +389,7 @@
 			(at 128 168 0)
 			(effects (font (size 1.27 1.27)) (justify left))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 125 165 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -425,7 +425,7 @@
 			(at 138 168 0)
 			(effects (font (size 1.27 1.27)) (justify left))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 135 165 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -461,7 +461,7 @@
 			(at 180 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 180 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -497,7 +497,7 @@
 			(at 195 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 195 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -533,7 +533,7 @@
 			(at 210 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 210 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -569,7 +569,7 @@
 			(at 225 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 225 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -605,7 +605,7 @@
 			(at 240 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 240 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -641,7 +641,7 @@
 			(at 255 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 255 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -677,7 +677,7 @@
 			(at 270 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 270 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -713,7 +713,7 @@
 			(at 285 152 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_SMD:LED_0201_0603Metric"
 			(at 285 148 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -749,7 +749,7 @@
 			(at 110 256 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_TL3342"
 			(at 110 250 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -785,7 +785,7 @@
 			(at 135 256 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_TL3342"
 			(at 135 250 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -821,7 +821,7 @@
 			(at 110 276 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_TL3342"
 			(at 110 270 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)
@@ -857,7 +857,7 @@
 			(at 135 276 0)
 			(effects (font (size 1.27 1.27)))
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_TL3342"
 			(at 135 270 0)
 			(effects (font (size 1.27 1.27)) hide)
 		)

@@ -676,7 +676,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Potentiometer_SMD:Potentiometer_ACP_CA6-VSMD_Vertical"
 			(at 115.57 88.9 0)
 			(effects
 				(font
@@ -749,7 +749,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Potentiometer_SMD:Potentiometer_ACP_CA6-VSMD_Vertical"
 			(at 193.04 90.17 0)
 			(effects
 				(font
@@ -889,7 +889,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Potentiometer_SMD:Potentiometer_ACP_CA6-VSMD_Vertical"
 			(at 154.94 90.17 0)
 			(effects
 				(font
